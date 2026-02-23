@@ -476,7 +476,7 @@ class GeomInfo:
             self.render.removeSuperimposition(self.sup)
             self.removeGrid()
             self.sg.touch()
-        except ReferenceError, AttributeError:
+        except (ReferenceError, AttributeError):
             debug("GeomInfo: doc has been closed")
 
     def removeGrid(self):
