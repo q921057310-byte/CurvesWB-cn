@@ -2,6 +2,32 @@ import FreeCAD
 import Part
 from random import random
 from math import pi
+from freecad.Curves.lib.trimmed_surface import TrimmedSurface
+
+
+def replace_surface(face, surface):
+    "Returns a new face, with surface support"
+    ow = face.OuterWire
+    iwl = [w for w in face.Wires if not w.isSame(ow)]
+    wl = [ow] + iwl
+    nwl = []
+    for w in wl:
+        ts = TrimmedSurface(surface)
+        ts.encompass(face.OuterWire)
+        ts.extend(0.01, Relative=True)
+        tsf = ts.Face
+        pw = tsf.project([w])
+        se = Part.sortEdges(pw.Edges)
+        if not len(se) == 1:
+            Part.show(pw, "SortEdges failed")
+            return Part.Shape()
+        nw = Part.Wire(se[0])
+        nw.Orientation = "Reversed"
+        nwl.append(nw)
+    nwl[0].Orientation = "Forward"
+    nf = Part.Face(surface, nwl[0])
+    nf.validate()
+    return nf
 
 
 def mean_vector(vectors):
@@ -376,6 +402,7 @@ from freecad.Curves.lib.trimmed_surface import TrimmedSurface
 sel = FreeCADGui.Selection.getSelection()
 for o in sel:
     FreeCAD.Console.PrintMessage(f"--- {o.Label} analysis\n")
+    faces = []
     for i, face in enumerate(o.Shape.Faces):
         FreeCAD.Console.PrintMessage(f"Face{i + 1} ({face.Surface.TypeId})\n")
         sr = SurfaceIdentifier(face)
@@ -383,19 +410,14 @@ for o in sel:
         surf = sr.get_surface()
         if surf:
             sr.report()
-            u0, u1, v0, v1 = face.ParameterRange
-            p1 = face.valueAt(u0, v0)
-            p2 = face.valueAt(u1, v1)
-            u0, v0 = surf.parameter(p1)
-            u1, v1 = surf.parameter(p2)
-            if u1 < u0:
-                u0, u1 = u1, u0
-            if v1 < v0:
-                v0, v1 = v1, v0
-            rts = TrimmedSurface(surf)
-            rts.Bounds = (u0, u1, v0, v1)
-            # rts.extend(0.1, Relative=True)
-            Part.show(rts.Face, f"Face{i + 1}")
+            nf = replace_surface(face, surf)
+            # Part.show(nf, f"Face{i + 1}")
+            if isinstance(nf, Part.Face):
+                faces.append(nf)
+    shell = Part.Shell(faces)
+    shell.sewShape()
+    solid = Part.Solid(shell)
+    Part.show(solid, f"{o.Label}_Canonical")
 
         # for pl in sr.sample_planes():
         #     rts = Part.RectangularTrimmedSurface(pl, -100, 100, -100, 100)

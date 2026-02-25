@@ -69,6 +69,15 @@ class TrimmedSurface:
         self.Umin, self.Umax, self.Vmin, self.Vmax = pr
         self._validate_bounds()
 
+    def encompass(self, wire, num = 10):
+        "Set Bounds to encompass projection of wire on surface"
+        ul, vl = [], []
+        for pt in wire.discretize(num):
+            u, v = self.basis_surf.parameter(pt)
+            ul.append(u)
+            vl.append(v)
+        self.extend(min(ul), max(ul), min(vl), max(vl))
+
     def extendU(self, *args, **kwargs):
         """
         Extend U bounds, Requires 0,1 or 2 positive values.
