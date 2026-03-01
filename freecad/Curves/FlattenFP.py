@@ -465,12 +465,24 @@ class FlattenViewProxy:
 class Curves_Flatten_Face_Cmd:
     """Create a flatten face feature"""
 
-    def makeFeature(self, sel=None):
-        fp = FreeCAD.ActiveDocument.addObject("Part::FeaturePython", "Flatten")
+    def makeFeature(self, sel=None, body=None):
+        if body is None:
+            fp = FreeCAD.ActiveDocument.addObject("Part::Part2DObjectPython", "Flattened Face")
+        else:
+            fp = body.newObject("Part::Part2DObjectPython", "Flattened Face")
         FlattenProxy(fp)
         FlattenViewProxy(fp.ViewObject)
+        fp.ViewObject.DisplayMode = "Flat Lines"
         fp.Source = sel
+        if body is not None:
+            fp.InPlace = False
+            fp.setEditorMode("InPlace", 2)
         FreeCAD.ActiveDocument.recompute()
+
+    def get_body(self, obj):
+        parent = obj.getParent()
+        if getattr(parent, "TypeId", "") == "PartDesign::Body":
+            return parent
 
     def Activated(self):
         sel = FreeCADGui.Selection.getSelectionEx()
@@ -479,10 +491,8 @@ class Curves_Flatten_Face_Cmd:
         for so in sel:
             for sn in so.SubElementNames:
                 subo = so.Object.getSubObject(sn)
-                if hasattr(subo, "Surface") and isinstance(subo.Surface, (Part.Cylinder,
-                                                                        Part.Cone,
-                                                                        Part.SurfaceOfExtrusion)):
-                    self.makeFeature((so.Object, sn))
+                if hasattr(subo, "Surface"):
+                    self.makeFeature((so.Object, sn), self.get_body(so.Object))
                 else:
                     FreeCAD.Console.PrintError("Bad input :{}-{}\n".format(so.Object.Label, sn))
 
