@@ -19,7 +19,7 @@ class TrimmedSurface:
         return f"TrimmedSurface({str(self.basis_surf)}, {str(self.Bounds)})"
 
     def __init__(self, source):
-        self._inf = 1e100
+        self._inf = 1e99
         if source.isDerivedFrom("Part::GeomSurface"):
             self.basis_surf = source
             self.basis_face = None
@@ -69,14 +69,18 @@ class TrimmedSurface:
         self.Umin, self.Umax, self.Vmin, self.Vmax = pr
         self._validate_bounds()
 
-    def encompass(self, wire, num = 10):
+    def encompass(self, wire, num=10):
         "Set Bounds to encompass projection of wire on surface"
         ul, vl = [], []
-        for pt in wire.discretize(num):
+        pts = wire.discretize(num)
+        pts.extend([v.Point for v in wire.Vertexes])
+        for pt in pts:
+            # u, v = self.basis_surf.projectPoint(pt, "Parameters")
             u, v = self.basis_surf.parameter(pt)
+            print(u, v)
             ul.append(u)
             vl.append(v)
-        self.extend(min(ul), max(ul), min(vl), max(vl))
+        self.Bounds = (min(ul), max(ul), min(vl), max(vl))
 
     def extendU(self, *args, **kwargs):
         """

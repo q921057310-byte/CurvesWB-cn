@@ -10,23 +10,30 @@ def replace_surface(face, surface):
     ow = face.OuterWire
     iwl = [w for w in face.Wires if not w.isSame(ow)]
     wl = [ow] + iwl
+    nf = Part.Face(surface, wl)
+    # nf.validate()
+    if nf.isValid():
+        return nf
     nwl = []
     for w in wl:
         ts = TrimmedSurface(surface)
         ts.encompass(face.OuterWire)
-        ts.extend(0.01, Relative=True)
+        ts.extend(1, Relative=True)
         tsf = ts.Face
         pw = tsf.project([w])
-        se = Part.sortEdges(pw.Edges)
+        se = Part.sortEdges(pw.Edges, 1e-7)
         if not len(se) == 1:
-            Part.show(pw, "SortEdges failed")
+            Part.show(Part.Compound([tsf] + [w]), "SortEdges failed")
             return Part.Shape()
         nw = Part.Wire(se[0])
         nw.Orientation = "Reversed"
         nwl.append(nw)
     nwl[0].Orientation = "Forward"
     nf = Part.Face(surface, nwl[0])
-    nf.validate()
+    try:
+        nf.validate()
+    except Part.OCCError:
+        pass
     return nf
 
 
@@ -353,15 +360,24 @@ class SurfaceIdentifier:
 
     def fix_rotation(self, surf):
         u0, u1, v0, v1 = self.bounds
-        pt1 = self.face.valueAt(u0, v0)
-        s0, t0 = surf.parameter(pt1)
-        pt2 = self.face.valueAt(u1, v1)
-        s1, t1 = surf.parameter(pt2)
-        if t1 < t0:
-            surf.Axis = -surf.Axis
+        pt1 = self.face.valueAt(0.5 * (u0 + u1), 0.5 * (v0 + v1))
+        axis_line = Part.Line(surf.Center, surf.Center + surf.Axis)
+        pt2 = axis_line.projectPoint(pt1)
+        iso = surf.uIso(surf.bounds()[0])
+        pl = Part.Plane(pt2, surf.Axis)
+        pt = pl.intersect(iso)[0][0]
+        pt3 = pt.toShape().Point
+        v1 = pt1 - pt2
+        v2 = pt3 - pt2
+        angle = v2.getAngle(-v1)
+        # s0, t0 = surf.parameter(pt1)
+        # pt2 = self.face.valueAt(u1, v1)
+        # s1, t1 = surf.parameter(pt2)
+        # if t1 < t0:
+        #     surf.Axis = -surf.Axis
         print("Rotating")
         plm = FreeCAD.Placement()
-        plm.rotate(surf.Center, surf.Axis, s1 * 180 / pi)
+        plm.rotate(surf.Center, surf.Axis, -angle * 180 / pi)
         surf.transform(plm.Matrix)
         return surf
 
@@ -406,6 +422,9 @@ for o in sel:
     for i, face in enumerate(o.Shape.Faces):
         FreeCAD.Console.PrintMessage(f"Face{i + 1} ({face.Surface.TypeId})\n")
         sr = SurfaceIdentifier(face)
+        if sr.is_canonical():
+            faces.append(face)
+            continue
         # sr.bounds = face.ParameterRange
         surf = sr.get_surface()
         if surf:
