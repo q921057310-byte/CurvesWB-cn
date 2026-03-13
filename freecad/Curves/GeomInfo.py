@@ -473,10 +473,11 @@ class GeomInfo:
 
     def removeHUD(self):
         try:
-            self.render.removeSuperimposition(self.sup)
-            self.removeGrid()
-            self.sg.touch()
-        except (ReferenceError, AttributeError):
+            if self.viewer:
+                self.render.removeSuperimposition(self.sup)
+                self.removeGrid()
+                self.sg.touch()
+        except (RuntimeError, ReferenceError, AttributeError):
             debug("GeomInfo: doc has been closed")
 
     def removeGrid(self):

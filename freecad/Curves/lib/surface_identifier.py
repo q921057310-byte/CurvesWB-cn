@@ -5,6 +5,18 @@ from math import pi
 from freecad.Curves.lib.trimmed_surface import TrimmedSurface
 
 
+def replace_surface_fix(face, surface, tol=1e-7):
+    "Returns a new face, with surface support"
+    ffix = Part.ShapeFix.Face(surface, tol)
+    for w in face.Wires:
+        ffix.add(w)
+    ffix.perform()
+    if ffix.fixOrientation():
+        print("fixOrientation")
+    if ffix.fixMissingSeam():
+        print("fixMissingSeam")
+    return ffix.face()
+
 def replace_surface(face, surface):
     "Returns a new face, with surface support"
     ow = face.OuterWire
@@ -324,6 +336,13 @@ class SurfaceIdentifier:
         cone.SemiAngle = semiangle
         return cone
 
+    def get_extrusion_surf(self, axis):
+        cog = self.face.CenterOfGravity
+        pl = Part.Plane(cog, axis)
+        curve = self.face.Surface.intersectSS(pl)[0]
+        ext = Part.SurfaceOfExtrusion(curve, axis)
+        return ext
+
     # def fix_rotation(self, surf):
     #     "Rotate surface so that the seam is outside of the bounds"
     #     vec2 = FreeCAD.Base.Vector2d
@@ -404,10 +423,13 @@ class SurfaceIdentifier:
             self.log("Surface is a cylinder")
             cyl = self.get_cylinder(axis)
             return self.fix_rotation(cyl)
-        if axis:
+        elif axis:
             self.log("Surface is an extrusion")
-            return None
-        self.log("Surface is not canonical")
+            extr = self.get_extrusion_surf(axis)
+            return extr
+        else:
+            self.log("Surface is not canonical")
+        return self.face.Surface
 
 
 # *** Test Script ***
@@ -421,7 +443,7 @@ for o in sel:
     faces = []
     for i, face in enumerate(o.Shape.Faces):
         FreeCAD.Console.PrintMessage(f"Face{i + 1} ({face.Surface.TypeId})\n")
-        sr = SurfaceIdentifier(face)
+        sr = SurfaceIdentifier(face, 10, 1e-2)
         if sr.is_canonical():
             faces.append(face)
             continue
@@ -429,7 +451,7 @@ for o in sel:
         surf = sr.get_surface()
         if surf:
             sr.report()
-            nf = replace_surface(face, surf)
+            nf = replace_surface_fix(face, surf)
             # Part.show(nf, f"Face{i + 1}")
             if isinstance(nf, Part.Face):
                 faces.append(nf)
