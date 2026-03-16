@@ -1,7 +1,7 @@
 import Part
 from freecad.Curves.lib.logger import FCLogger
 
-logger = FCLogger("Debug")
+logger = FCLogger("Debug", "lib/face_builder")
 
 
 def face_validate(face):

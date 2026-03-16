@@ -7,7 +7,7 @@ class FCLogger:
     """
     Logging tool for FreeCAD Console
     Example:
-    logger = FCLogger("Debug")
+    logger = FCLogger(level="Debug", name="MyLogger")
     logger.warn("This is a warning")
     logger.debug("Debug info")
     """
@@ -50,7 +50,9 @@ class FCLogger:
             return str(dat)
 
     def strform(self, dat, pre="", post=""):
-        return pre + self.strconv(dat) + post + "\n"
+        strl = [self.strconv(arg) for arg in dat]
+        string = " ".join(strl)
+        return pre + string + post + "\n"
 
     def process(self, *args, **kwargs):
         func = kwargs["func"]
@@ -61,8 +63,7 @@ class FCLogger:
                 pre = "   "
             except ValueError:
                 pass
-        for arg in args:
-            func(self.strform(arg, pre))
+        func(self.strform(args, pre))
 
     def debug(self, *args):
         if FCLogger.rank(self.Level) < FCLogger.rank("Debug"):
@@ -96,7 +97,6 @@ class FCLogger:
 # log.warn("Warning")
 # log.error("Error")
 # log.critic("Critical")
-# 
+#
 # v = Vector(1.00000000000001,0,0)
 # log.debug(v, Part.Vertex(v))
-

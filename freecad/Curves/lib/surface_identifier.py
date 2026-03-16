@@ -233,7 +233,7 @@ class SurfaceIdentifier:
             return sph
         axis = planes_intersection(self.sample_planes(), self.tol)
         apex = lines_intersection(self.sample_lines(), self.tol)
-        self.logger.info("Apex : ", apex)
+        self.logger.info("Apex :", apex)
         if isinstance(axis, Part.Line):
             axis = self.fix_axis_orientation(axis)
             if apex:
@@ -257,14 +257,15 @@ class SurfaceIdentifier:
 import FreeCADGui
 from freecad.Curves.lib.trimmed_surface import TrimmedSurface
 
-log = FCLogger("Debug")
+log = FCLogger("Debug", "Surface Identifier test")
+log.IncludeFuncName = False
 
 sel = FreeCADGui.Selection.getSelection()
 for o in sel:
-    log.debug(f"--- {o.Label} analysis\n")
+    log.debug(f"{o.Label} analysis\n")
     faces = []
     for i, face in enumerate(o.Shape.Faces):
-        log.debug(f"Face{i + 1} ({face.Surface.TypeId})")
+        log.debug(f"--- Face{i + 1} ({face.Surface.TypeId})")
         sr = SurfaceIdentifier(face, 10, 1e-7)
         # if sr.is_canonical():
         #     faces.append(face)
@@ -283,9 +284,9 @@ for o in sel:
     solid = Part.Solid(shell)
     Part.show(solid, f"{o.Label}_Canonical")
 
-        # for pl in sr.sample_planes():
-        #     rts = Part.RectangularTrimmedSurface(pl, -100, 100, -100, 100)
-        #     Part.show(rts.toShape())
+    # for pl in sr.sample_planes():
+    #     rts = Part.RectangularTrimmedSurface(pl, -100, 100, -100, 100)
+    #     Part.show(rts.toShape())
 
 """
 from importlib import reload

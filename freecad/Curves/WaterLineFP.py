@@ -66,7 +66,7 @@ class WaterLineFP:
 
     def execute(self, obj):
         faces = self.get_source_shapes(obj)
-        print(faces)
+        # print(faces)
         comp = Part.Compound(faces)
         axis = obj.Direction
         line = Part.Line()
