@@ -1,130 +1,11 @@
 import FreeCAD
 import Part
-from random import random
+# from random import random
 from math import pi
 from freecad.Curves.lib.trimmed_surface import TrimmedSurface
 from freecad.Curves.lib import face_builder
-
-
-# def replace_surface(face, surface):
-#     "Returns a new face, with surface support"
-#     ow = face.OuterWire
-#     iwl = [w for w in face.Wires if not w.isSame(ow)]
-#     wl = [ow] + iwl
-#     nf = Part.Face(surface, wl)
-#     # nf.validate()
-#     if nf.isValid():
-#         return nf
-#     nwl = []
-#     for w in wl:
-#         ts = TrimmedSurface(surface)
-#         ts.encompass(face.OuterWire)
-#         ts.extend(1, Relative=True)
-#         tsf = ts.Face
-#         pw = tsf.project([w])
-#         se = Part.sortEdges(pw.Edges, 1e-7)
-#         if not len(se) == 1:
-#             Part.show(Part.Compound([tsf] + [w]), "SortEdges failed")
-#             return Part.Shape()
-#         nw = Part.Wire(se[0])
-#         nw.Orientation = "Reversed"
-#         nwl.append(nw)
-#     nwl[0].Orientation = "Forward"
-#     nf = Part.Face(surface, nwl[0])
-#     try:
-#         nf.validate()
-#     except Part.OCCError:
-#         pass
-#     return nf
-
-
-def mean_vector(vectors):
-    "Return the mean vector of a list of vectors"
-    point = FreeCAD.Vector()
-    for pt in vectors:
-        point += pt
-    point /= len(vectors)
-    return point
-
-
-def mean_line(lines):
-    "Return the mean line of a list of lines"
-    direction = mean_vector([li.Direction for li in lines])
-    location = mean_vector([li.Location for li in lines])
-    return Part.Line(location, location + direction)
-
-
-def lines_intersection(lines, tol=1e-7, size=1e6):
-    """
-    If lines all intersect into one point.
-    Returns this point, or None otherwise.
-    Input :
-    lines : list of Part.Line
-    tol (float): search tolerance
-    size (float): size for edge conversion
-    Return :
-    Converging point (FreeCAD.Vector) or None
-    """
-    interlist = []
-    for i in range(len(lines) - 1):
-        li1 = lines[i].toShape(-size, size)
-        li2 = lines[i + 1].toShape(-size, size)
-        d, pts, info = li1.distToShape(li2)
-        # Part.show(Part.Compound([li1, li2]))
-        if d > tol:
-            # print(f"Find_apex 1, intersection #{i} : {d} out of tolerance {tol}")
-            # Part.show(Part.Compound([li1, li2]))
-            return None
-        interlist.append(0.5 * pts[0][0] + 0.5 * pts[0][1])
-    for i in range(len(interlist) - 1):
-        d = interlist[i].distanceToPoint(interlist[i + 1])
-        if d > tol:
-            # print(f"Find_apex 2, intersection #{i} : {d} out of tolerance {tol}")
-            return None
-    return mean_vector(interlist)
-
-
-def planes_intersection(planes, tol=1e-7):
-    """
-    If planes all intersect into one line, return this line.
-    If planes intersect into parallel lines, return the direction.
-    Else, return None
-    Input :
-    planes : list of Part.Plane
-    tol (float): search tolerance
-    Return :
-    Intersection line (Part.Line)
-    or intersection direction (FreeCAD.Vector)
-    or None
-    """
-    center = None
-    interlist = []
-    for i in range(len(planes) - 1):
-        inter = planes[i].intersect(planes[i + 1])
-        interlist.extend(inter)
-    if len(interlist) == 0:
-        # All planes are parallel
-        return None
-    # Part.show(Part.Compound([il.toShape(-100, 100) for il in interlist]))
-    coincident = True
-    for i in range(len(interlist) - 1):
-        i1 = interlist[i]
-        i2 = interlist[i + 1]
-        dotprod = i1.Direction.dot(i2.Direction)
-        if (1.0 - abs(dotprod)) > tol:
-            # print(f"plane intersection #{i}: out of tolerance {tol}")
-            return None
-        if dotprod < 0:
-            i2.reverse()
-        if i1.Location.distanceToLine(i2.Location, i2.Direction) > tol:
-            coincident = False
-    axis = mean_vector([li.Direction for li in interlist])
-    # print(f"Found Axis {axis}")
-    if coincident:
-        center = mean_vector([li.Location for li in interlist])
-        # print(f"Found Center {center}")
-        return Part.Line(center, center + axis)
-    return axis
+from freecad.Curves.lib.logger import FCLogger
+from freecad.Curves.lib.geometry import lines_intersection, planes_intersection
 
 
 class SurfaceIdentifier:
@@ -140,24 +21,7 @@ class SurfaceIdentifier:
         self.SemiAngle = None
         self.Center = None
         self.Radius = None
-        self._log = []
-
-    def report(self):
-        "Print the log stack"
-        def prmes(mes):
-            FreeCAD.Console.PrintMessage(mes + "\n")
-        # prmes("*** SurfaceIdentifier Report")
-        for line in self._log:
-            prmes(f"- {line}")
-        # prmes("***")
-
-    def log(self, message):
-        "Add message to the log stack"
-        self._log.append(f"{str(message)}")
-
-    def vecstr(self, vec, num_dec=3):
-        "String representation of a Vector with fixed number of decimals"
-        return f"({vec.x:.{num_dec}f}, {vec.y:.{num_dec}f}, {vec.z:.{num_dec}f})"
+        self.logger = FCLogger("Debug", "SurfaceIdentifier")
 
     def is_canonical(self):
         types = ('Part::GeomPlane',
@@ -171,27 +35,25 @@ class SurfaceIdentifier:
 
     def uniform_UV(self):
         "Uniform generator of (u, v) parameters in the source face bounds"
-        i = 0
         u0, u1, v0, v1 = self.bounds
         urange = u1 - u0
         vrange = v1 - v0
         for i in range(self.num_samples):
             u = u0 + i * urange / (self.num_samples - 1)
             v = v0 + i * vrange / (self.num_samples - 1)
-            i += 1
             yield u, v
 
-    def random_UV(self):
-        "Random generator of (u, v) parameters in the source face bounds"
-        i = 0
-        u0, u1, v0, v1 = self.bounds
-        urange = u1 - u0
-        vrange = v1 - v0
-        while i < self.num_samples:
-            u = u0 + random() * urange
-            v = v0 + random() * vrange
-            i += 1
-            yield u, v
+    # def random_UV(self):
+    #     "Random generator of (u, v) parameters in the source face bounds"
+    #     i = 0
+    #     u0, u1, v0, v1 = self.bounds
+    #     urange = u1 - u0
+    #     vrange = v1 - v0
+    #     while i < self.num_samples:
+    #         u = u0 + random() * urange
+    #         v = v0 + random() * vrange
+    #         i += 1
+    #         yield u, v
 
     def sample_lines(self):
         "Return a list of lines along minimal curvature of source face"
@@ -216,7 +78,7 @@ class SurfaceIdentifier:
         macu = abs(self.face.Surface.curvature(u, v, "Max"))
         micu = abs(self.face.Surface.curvature(u, v, "Min"))
         if (macudi.Length < self.tol) or (micudi.Length < self.tol):
-            self.log(f"Curvature Directions Error: ({macudi}, {micudi})")
+            self.logger.info(f"Curvature Directions Error: ({macudi}, {micudi})")
         if macu < micu:
             return micudi, macudi
         return macudi, micudi
@@ -271,7 +133,10 @@ class SurfaceIdentifier:
         radius2 = pt2.distanceToPoint(proj2)
         line1 = FreeCAD.Vector(0, par2 - par1, 0)
         line2 = FreeCAD.Vector(radius2, par2, 0) - FreeCAD.Vector(radius1, par1, 0)
-        return line1.getAngle(line2), proj1, radius1
+        angle = line1.getAngle(line2)
+        if par2 < par1:
+            angle = -angle
+        return angle, proj1, radius1
 
     def basis_curve(self):
         "Returns the basis curve of a surface of extrusion"
@@ -322,7 +187,7 @@ class SurfaceIdentifier:
         semiangle, center, radius = self.cone_data(apex, axis)
         cone.Center = center
         cone.Radius = radius
-        cone.SemiAngle = semiangle
+        cone.SemiAngle = -semiangle
         return cone
 
     def get_extrusion_surf(self, axis):
@@ -331,40 +196,6 @@ class SurfaceIdentifier:
         curve = self.face.Surface.intersectSS(pl)[0]
         ext = Part.SurfaceOfExtrusion(curve, axis)
         return ext
-
-    # def fix_rotation(self, surf):
-    #     "Rotate surface so that the seam is outside of the bounds"
-    #     vec2 = FreeCAD.Base.Vector2d
-    #     u0, u1, v0, v1 = self.bounds
-    #     print(f"Face U range : {u0}, {u1}")
-    #     l2do = Part.Geom2d.Line2dSegment(vec2(u0, v0), vec2(u1, v1))
-    #     diago = l2do.toShape(self.face.Surface)
-    #     u_width = u1 - u0
-    # 
-    #     pt1 = self.face.valueAt(u0, v0)
-    #     pt2 = self.face.valueAt(u1, v1)
-    #     s0, t0 = surf.parameter(pt1)
-    #     s1, t1 = surf.parameter(pt2)
-    #     l2dn = Part.Geom2d.Line2dSegment(vec2(s0, t0), vec2(s1, t1))
-    #     diagn = l2dn.toShape(surf)
-    # 
-    #     if abs(diagn.Length - diago.Length) > self.tol:
-    #         print(f"Diagonal error : {diagn.Length} != {diago.Length}")
-    # 
-    #     print(f"Surface S range : {s0}, {s1}")
-    #     s_width = abs(s1 - s0)
-    #     # print(s0, s1)
-    #     if abs(u_width - s_width) > self.tol:
-    #         print("Rotating")
-    #         plm = FreeCAD.Placement()
-    #         plm.rotate(surf.Center, surf.Axis, u1 - s0)
-    #         surf.transform(plm.Matrix)
-    #         # pt1 = self.face.valueAt(u0, v0)
-    #         # pt2 = self.face.valueAt(u1, v1)
-    #         s0, t0 = surf.parameter(pt1)
-    #         s1, t1 = surf.parameter(pt2)
-    #         print(f"Surface S range : {s0}, {s1}")
-    #     return surf
 
     def fix_rotation(self, surf):
         u0, u1, v0, v1 = self.bounds
@@ -377,52 +208,48 @@ class SurfaceIdentifier:
         pt3 = pt.toShape().Point
         v1 = pt2 - pt1
         v2 = pt3 - pt2
-        angle = v2.getAngle(v1)
+        angle = v2.getAngle(v1) * 180 / pi
         cross = v2.cross(v1)
         dot = cross.dot(surf.Axis)
         if dot < 0:
             angle = -angle
-        # s0, t0 = surf.parameter(pt1)
-        # pt2 = self.face.valueAt(u1, v1)
-        # s1, t1 = surf.parameter(pt2)
-        # if t1 < t0:
-        #     surf.Axis = -surf.Axis
-        print("Rotating")
+        self.logger.debug(f"Rotating {angle:.2f}°")
         plm = FreeCAD.Placement()
-        plm.rotate(surf.Center, surf.Axis, angle * 180 / pi)
+        plm.rotate(surf.Center, surf.Axis, angle)
         surf.transform(plm.Matrix)
         return surf
 
     def get_surface(self):
         "Search and return canonical surface"
         if self.is_canonical():
-            return self.face.Surface
+            return None
         pl = self.get_plane()
         if pl:
-            self.log("Surface is a plane")
+            self.logger.info("Surface is a plane")
             return pl
         sph = self.get_sphere()
         if sph:
-            self.log("Surface is a sphere")
+            self.logger.info("Surface is a sphere")
             return sph
         axis = planes_intersection(self.sample_planes(), self.tol)
         apex = lines_intersection(self.sample_lines(), self.tol)
+        self.logger.info("Apex : ", apex)
         if isinstance(axis, Part.Line):
             axis = self.fix_axis_orientation(axis)
             if apex:
-                self.log("Surface is a cone")
+                self.logger.info("Surface is a cone")
                 cone = self.get_cone(apex, axis)
                 return self.fix_rotation(cone)
-            self.log("Surface is a cylinder")
+            self.logger.info("Surface is a cylinder")
             cyl = self.get_cylinder(axis)
             return self.fix_rotation(cyl)
         elif axis:
-            self.log("Surface is an extrusion")
+            self.logger.info("Surface is an extrusion")
             extr = self.get_extrusion_surf(axis)
             return extr
         else:
-            self.log("Surface is not canonical")
-        return self.face.Surface
+            self.logger.info("Surface is not canonical")
+        return None
 
 
 # *** Test Script ***
@@ -430,24 +257,27 @@ class SurfaceIdentifier:
 import FreeCADGui
 from freecad.Curves.lib.trimmed_surface import TrimmedSurface
 
+log = FCLogger("Debug")
+
 sel = FreeCADGui.Selection.getSelection()
 for o in sel:
-    FreeCAD.Console.PrintMessage(f"--- {o.Label} analysis\n")
+    log.debug(f"--- {o.Label} analysis\n")
     faces = []
     for i, face in enumerate(o.Shape.Faces):
-        FreeCAD.Console.PrintMessage(f"Face{i + 1} ({face.Surface.TypeId})\n")
-        sr = SurfaceIdentifier(face, 10, 1e-2)
-        if sr.is_canonical():
-            faces.append(face)
-            continue
+        log.debug(f"Face{i + 1} ({face.Surface.TypeId})")
+        sr = SurfaceIdentifier(face, 10, 1e-7)
+        # if sr.is_canonical():
+        #     faces.append(face)
+        #     continue
         # sr.bounds = face.ParameterRange
         surf = sr.get_surface()
         if surf:
-            sr.report()
-            nf = face_builder.change_surface(face, surf)
+            nf = face_builder.change_surface(surf, face)
             # Part.show(nf, f"Face{i + 1}")
             if isinstance(nf, Part.Face):
                 faces.append(nf)
+        else:
+            faces.append(face)
     shell = Part.Shell(faces)
     shell.sewShape()
     solid = Part.Solid(shell)

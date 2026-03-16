@@ -1,23 +1,24 @@
-from typing import overload
-import FreeCAD
 import Part
+from freecad.Curves.lib.logger import FCLogger
+
+logger = FCLogger("Debug")
 
 
 def face_validate(face):
+    "Tries to fix a non-valid face"
     if face.isValid():
         return face
-    print("face is not valid.")
     face.validate()
     if face.isValid():
-        print("Validation success.")
+        logger.debug("face validate success.")
     else:
-        print("Validation failed.")
+        logger.debug("face validate failed.")
     return face
 
 
 def shapefix_builder(surface, wires=[], tol=1e-7):
     """
-    Create a face with with surface and wires
+    Create a face with surface and wires
     It uses Part.Shapefix.Face tool.
     new_face = shapefix_builder(face, surface=[], tol=1e-7)
     """
@@ -26,9 +27,9 @@ def shapefix_builder(surface, wires=[], tol=1e-7):
         ffix.add(w)
     ffix.perform()
     if ffix.fixOrientation():
-        print("shapefix_builder fixOrientation")
+        logger.debug("fixed Orientation")
     if ffix.fixMissingSeam():
-        print("shapefix_builder fixMissingSeam")
+        logger.debug("fixed Missing Seam")
     return face_validate(ffix.face())
 
 

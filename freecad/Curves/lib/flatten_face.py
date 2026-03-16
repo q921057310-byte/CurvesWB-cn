@@ -4,6 +4,7 @@ import Part
 from math import pi
 from freecad.Curves.lib.precision import tol3d
 from freecad.Curves.lib.surface_identifier import SurfaceIdentifier
+from freecad.Curves.lib.logger import FCLogger
 from freecad.Curves.nurbs_tools import KnotVector
 
 
@@ -16,6 +17,7 @@ class FlattenFace:
     "Flatten a face"
 
     def __init__(self, face):
+        self.logger = FCLogger("Debug", "FlattenFace")
         self.face = face
         self.tol3d = tol3d
         self.bounds = 0, 1, 0, 1
