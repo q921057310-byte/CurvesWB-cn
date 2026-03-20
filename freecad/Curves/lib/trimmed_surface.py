@@ -8,8 +8,7 @@ ts = TrimmedSurface(f1)
 
 
 class TrimmedSurface:
-    """Create a Trimmed Surface from
-    a face or surface source.
+    """Create a Trimmed Surface from a face or surface source.
     ts = TrimmedSurface(face)
     ts.extend(0.1)
     trim_face = ts.Face
@@ -77,7 +76,7 @@ class TrimmedSurface:
         for pt in pts:
             # u, v = self.basis_surf.projectPoint(pt, "Parameters")
             u, v = self.basis_surf.parameter(pt)
-            print(u, v)
+            # print(u, v)
             ul.append(u)
             vl.append(v)
         self.Bounds = (min(ul), max(ul), min(vl), max(vl))

@@ -134,8 +134,8 @@ class SurfaceIdentifier:
         line1 = FreeCAD.Vector(0, par2 - par1, 0)
         line2 = FreeCAD.Vector(radius2, par2, 0) - FreeCAD.Vector(radius1, par1, 0)
         angle = line1.getAngle(line2)
-        if par2 < par1:
-            angle = -angle
+        # if par2 < par1:
+        #     angle = -angle
         return angle, proj1, radius1
 
     def basis_curve(self):
@@ -187,7 +187,7 @@ class SurfaceIdentifier:
         semiangle, center, radius = self.cone_data(apex, axis)
         cone.Center = center
         cone.Radius = radius
-        cone.SemiAngle = -semiangle
+        cone.SemiAngle = semiangle
         return cone
 
     def get_extrusion_surf(self, axis):
@@ -198,6 +198,10 @@ class SurfaceIdentifier:
         return ext
 
     def fix_rotation(self, surf):
+        """
+        Rotates cylinders and cones around axis
+        so that the seam is outside the face boundaries
+        """
         u0, u1, v0, v1 = self.bounds
         pt1 = self.face.valueAt(0.5 * (u0 + u1), 0.5 * (v0 + v1))
         axis_line = Part.Line(surf.Center, surf.Center + surf.Axis)
