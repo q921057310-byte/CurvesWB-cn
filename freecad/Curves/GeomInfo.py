@@ -377,7 +377,7 @@ class surfNode(GeomNode):
         upars = paramList(self.num_iso, *ts.Bounds[:2])
         vpars = paramList(self.num_iso, *ts.Bounds[2:])
         color = [0.5 * v for v in self.Xcolor]
-        FreeCAD.Console.PrintMessage(str(color))
+        # FreeCAD.Console.PrintMessage(str(color))
         width = 3
         for u in upars:
             uiso = tsurf.uIso(u)

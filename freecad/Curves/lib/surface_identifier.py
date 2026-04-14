@@ -167,7 +167,9 @@ class SurfaceIdentifier:
             return
         pt = self.face.valueAt(self.bounds[0], self.bounds[2])
         radius = pt.distanceToPoint(center)
+        axis = self.face.PrincipalProperties['SecondAxisOfInertia']
         sph = Part.Sphere()
+        sph.Axis = axis
         sph.Center = center
         sph.Radius = radius
         return sph
@@ -254,7 +256,7 @@ class SurfaceIdentifier:
         sph = self.get_sphere()
         if sph:
             self.logger.info("Surface is a sphere")
-            return sph
+            return self.fix_rotation(sph)
         axis = planes_intersection(self.sample_planes(), self.tol)
         apex = lines_intersection(self.sample_lines(), self.tol)
         self.logger.info("Apex :", apex)
