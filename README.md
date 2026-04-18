@@ -7,15 +7,25 @@ FreeCAD 曲线和曲面工作台（简易汉化版）
 
 
 这主要用于 NURBS 曲线与曲面操作。本工作台基于 FreeCAD 主开发分支开发。
+
 重要说明
+
 本工作台为实验性工具，不可用于正式生产工作。
+
 不适合初学者使用，需要具备一定 FreeCAD 基础。
+
 本项目本质为个人几何算法实验项目。
+
 安装方法，汉化版不支持插件管理器安装。
+
 进入个人 FreeCAD 目录：
+
 Linux：/home/用户名/.local/share/FreeCAD/
+
 Windows：%APPDATA%\FreeCAD\Mod\
+
 macOS：/Users/用户名/Library/Preferences/FreeCAD/
+
 进入 Mod 文件夹，不存在则新建
 
 
