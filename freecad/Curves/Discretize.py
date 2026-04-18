@@ -1,12 +1,12 @@
 # SPDX-License-Identifier: LGPL-2.1-or-later
 
-__title__ = "Discretize"
+__title__ = "离散化"
 __author__ = "Christophe Grellier (Chris_G)"
 __license__ = "LGPL 2.1"
-__doc__ = "Discretize an edge or a wire."
-__usage__ = """Select an edge in the 3D View
-Activate tool
-It will generate some points along the edge, following various methods"""
+__doc__ = "将边缘或连线进行离散化处理。"
+__usage__ = """在 3D 视图中选择一个边缘
+激活此工具
+它将根据不同的方法沿边缘生成一系列点"""
 
 import os
 import FreeCAD

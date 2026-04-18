@@ -1,19 +1,19 @@
 # SPDX-License-Identifier: LGPL-2.1-or-later
 
-__title__ = "Freehand BSpline"
+__title__ = "手绘 B 样条线"
 __author__ = "Christophe Grellier (Chris_G)"
 __license__ = "LGPL 2.1"
-__doc__ = "Creates an freehand BSpline curve"
-__usage__ = """*** Interpolation curve control keys :
+__doc__ = "创建一个手绘 B 样条（BSpline）曲线"
+__usage__ = """*** 插值曲线控制键：
 
-    a - Select all / Deselect
-    i - Insert point in selected segments
-    t - Set / unset tangent (view direction)
-    p - Align selected objects
-    s - Snap points on shape / Unsnap
-    l - Set/unset a linear interpolation
-    x,y,z - Axis constraints during grab
-    q - Apply changes and quit editing"""
+    a - 全选 / 取消全选
+    i - 在所选线段中插入点
+    t - 设置 / 取消切线（视角方向）
+    p - 对齐所选对象
+    s - 开启 / 关闭形状吸附（Snap）
+    l - 设置 / 取消线性插值
+    x,y,z - 抓取时的轴向约束
+    q - 应用更改并退出编辑"""
 
 import os
 import FreeCAD

@@ -1,12 +1,16 @@
 # SPDX-License-Identifier: LGPL-2.1-or-later
 
-__title__ = "isoCurves for FreeCAD"
+__title__ = "FreeCAD 等值线 (isoCurves)"
 __author__ = "Chris_G"
 __license__ = "LGPL 2.1"
 __doc__ = '''
+代码调用示例：
 import isocurves
+# 在 U 方向 0.5 处创建单条等值线
 single = isocurves.isoCurve(face,'U',0.5)
 Part.show(single.toShape())
+
+# 在 U 和 V 方向分别创建 10 条和 20 条等值线
 multi  = isocurves.multiIso(face,10,20)
 Part.show(multi.toShape())
 '''

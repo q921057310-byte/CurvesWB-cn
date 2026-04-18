@@ -1,12 +1,11 @@
 # SPDX-License-Identifier: LGPL-2.1-or-later
-
-__title__ = "Mixed curve"
+__title__ ="混合曲线"
 __author__ = "Christophe Grellier (Chris_G)"
 __license__ = "LGPL 2.1"
-__doc__ = "Builds a 3D curve as the intersection of 2 projected curves."
-__usage__ = """Select two objects or shapes, and activate tool.
-The camera direction is saved during each shape selection, and will be used as projection direction.
-Set these directions to (0,0,0) to use the placement of each shape as projection direction."""
+__doc__ = "通过两条投影曲线的交集构建一条 3D 曲线。"
+__usage__ = """选择两个对象或形状，然后激活工具。
+系统会在选择每个形状时记录当前的摄像机视角，并将其作为投影方向。
+若将这些方向设置为 (0,0,0)，则会使用每个形状自身的放置位置 (Placement) 作为投影方向。"""
 
 import os
 import FreeCAD
@@ -220,7 +219,7 @@ class MixedCurveCmd:
 
     def GetResources(self):
         return {'Pixmap': TOOL_ICON,
-                'MenuText': 'Mixed curve',
+                'MenuText': '混合曲线',
                 'ToolTip': "{}<br><br><b>Usage :</b><br>{}".format(__doc__, "<br>".join(__usage__.splitlines()))}
 
 

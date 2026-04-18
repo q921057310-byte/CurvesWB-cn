@@ -1,9 +1,9 @@
 # SPDX-License-Identifier: LGPL-2.1-or-later
 
-__title__ = "Interpolate"
+__title__ = "插值曲线"
 __author__ = "Christophe Grellier (Chris_G)"
 __license__ = "LGPL 2.1"
-__doc__ = "Interpolate a set of points."
+__doc__ = "通过一组点生成插值曲线。"
 
 import os
 import FreeCAD

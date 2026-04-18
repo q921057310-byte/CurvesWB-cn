@@ -1,10 +1,10 @@
 # SPDX-License-Identifier: LGPL-2.1-or-later
 
-__title__ = "Extract subshape"
+__title__ = "提取子形状"
 __author__ = "Christophe Grellier (Chris_G)"
 __license__ = "LGPL 2.1"
-__doc__ = """Make a non-parametric copy of selected subshapes.
-Same as Part_ElementCopy"""
+__doc__ = """创建所选子形状的非参数化副本。
+功能等同于 Part_ElementCopy (零件_复制元素)"""
 
 import os
 import FreeCAD

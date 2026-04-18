@@ -1,9 +1,9 @@
 # SPDX-License-Identifier: LGPL-2.1-or-later
 
-__title__ = 'Profile support plane'
+__title__ = '轮廓支撑平面 (Profile support plane)'
 __author__ = "Christophe Grellier (Chris_G)"
 __license__ = "LGPL 2.1"
-__doc__ = 'Creates a support plane for sketches'
+__doc__ = '为草图创建一个支撑平面。'
 
 import os
 import FreeCAD

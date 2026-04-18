@@ -320,8 +320,8 @@ class blendSurfCommand:
 
     def GetResources(self):
         return {'Pixmap': TOOL_ICON,
-                'MenuText': 'Blend Surface',
-                'ToolTip': 'Blend surface between two curveOnSurface objects'}
+                'MenuText': '混合曲面',
+                'ToolTip': '在两个“曲面上的曲线 (curveOnSurface)”对象之间创建混合曲面'}
 
 FreeCADGui.addCommand('blendSurface', blendSurfCommand())
 

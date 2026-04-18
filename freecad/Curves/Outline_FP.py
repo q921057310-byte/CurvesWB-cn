@@ -1,9 +1,9 @@
 # SPDX-License-Identifier: LGPL-2.1-or-later
 
-__title__ = "Outline Curve"
+__title__ = "轮廓曲线 (Outline Curve)"
 __author__ = "Christophe Grellier (Chris_G)"
 __license__ = "LGPL 2.1"
-__doc__ = """Outline curve of a shape"""
+__doc__ = """提取形状的外轮廓曲线"""
 
 import sys
 if sys.version_info.major >= 3:

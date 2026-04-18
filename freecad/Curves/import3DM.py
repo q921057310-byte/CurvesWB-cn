@@ -1,9 +1,9 @@
 # SPDX-License-Identifier: LGPL-2.1-or-later
 
-__title__ = "import3DM"
+__title__ = "导入 3DM"
 __author__ = "Christophe Grellier (Chris_G) - Keith Sloan (keithsloan52)"
 __license__ = "LGPL 2.1"
-__doc__ = "import of 3DM file"
+__doc__ = "导入 Rhino (3DM) 格式文件"
 
 import FreeCAD
 import os, io, sys

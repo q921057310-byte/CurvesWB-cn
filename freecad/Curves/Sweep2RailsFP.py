@@ -1,9 +1,9 @@
 # SPDX-License-Identifier: LGPL-2.1-or-later
 
-__title__ = 'Sweep 2 Rails'
+__title__ = '双轨扫掠 (Sweep 2 Rails)'
 __author__ = 'Christophe Grellier (Chris_G)'
 __license__ = 'LGPL 2.1'
-__doc__ = 'Create a sweep surface between two rails'
+__doc__ = '在两条轨道 (Rails) 之间创建扫掠曲面。'
 
 import os
 import FreeCAD

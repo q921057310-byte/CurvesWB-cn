@@ -1,9 +1,9 @@
 # SPDX-License-Identifier: LGPL-2.1-or-later
 
-__title__ = "Parametric Gordon surface"
+__title__ = "参数化 Gordon 曲面"
 __author__ = "Christophe Grellier (Chris_G)"
 __license__ = "LGPL 2.1"
-__doc__ = "Creates a surface that skins a network of curves."
+__doc__ = "通过曲线网络生成的参数化蒙皮曲面。"
 
 # from importlib import reload
 import os
@@ -219,8 +219,8 @@ class gordonCommand:
 
     def GetResources(self):
         return {'Pixmap': TOOL_ICON,
-                'MenuText': 'Gordon surface',
-                'ToolTip': 'Creates a surface that skins a network of curves'}
+                'MenuText': 'Gordon 曲面',
+                'ToolTip': '通过网格化的曲线网络创建蒙皮曲面'}
 
 
 FreeCADGui.addCommand('gordon', gordonCommand())

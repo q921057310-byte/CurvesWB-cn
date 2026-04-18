@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: LGPL-2.1-or-later
 
-__title__ = "Curve extend"
+__title__ = "曲线延伸"
 __author__ = "Christophe Grellier (Chris_G)"
 __license__ = "LGPL 2.1"
-__doc__ = "Extend an edge by a given distance."
-__usage__ = """Select an edge in the 3D View, and activate tool.
-Edge can be extended at each end, by a given distance."""
+__doc__ = "按给定距离延伸边缘。"
+__usage__ = """在 3D 视图中选择一根边缘，然后激活此工具。
+边缘可以在两端按指定的距离进行延伸。"""
 
 import os
 import FreeCAD

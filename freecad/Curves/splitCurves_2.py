@@ -1,15 +1,15 @@
 # SPDX-License-Identifier: LGPL-2.1-or-later
 
-__title__ = "Split curve"
+__title__ = "分割曲线 (Split curve)"
 __author__ = "Christophe Grellier (Chris_G)"
 __license__ = "LGPL 2.1"
-__doc__ = "Splits the selected edge"
-__usage__ = """Select an edge in the 3D View, or an object containing a wire in the Tree View
-Activate Tool
-The selected edges (or wire) will be cut at the specified location.
-The split locations can be given as real edge parameter, absolute distance(mm) or relative distance (%)
-The split locations can be set by proximity to cutting objects.
-Double-click in Tree-View to toggle Freehand editor in 3D View.
+__doc__ = "分割选定的边缘。"
+__usage__ = """在 3D 视图中选择一条边缘，或在树状视图中选择包含线框 (Wire) 的对象。
+激活工具。
+选定的边缘（或线框）将在指定位置被切断。
+分割位置可以通过以下方式定义：实际边缘参数、绝对距离 (mm) 或相对距离 (%)。
+分割位置也可以通过与“切割对象”的邻近程度来设定。
+在树状视图中双击对象，可切换至 3D 视图中的手绘编辑模式。
 """
 
 

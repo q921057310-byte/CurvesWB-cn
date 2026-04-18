@@ -1,10 +1,8 @@
 # SPDX-License-Identifier: LGPL-2.1-or-later
-
-__title__ = "Curve on surface"
+__title__ = "曲面上的曲线"
 __author__ = "Christophe Grellier (Chris_G)"
 __license__ = "LGPL 2.1"
-__doc__ = "Creates a parametric curve on surface object."
-
+__doc__ = "创建一个参数化的曲面上曲线对象。"
 import os
 import FreeCAD
 import FreeCADGui
@@ -145,7 +143,7 @@ class cosCommand:
 
     def GetResources(self):
         return {'Pixmap': TOOL_ICON,
-                'MenuText': 'CurveOnSurface',
-                'ToolTip': 'Create a curve on surface object'}
+                'MenuText': '曲面上的曲线',
+                'ToolTip': '在曲面上创建曲线对象'}
 
 FreeCADGui.addCommand('cos', cosCommand())

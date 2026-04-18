@@ -1,9 +1,9 @@
 # SPDX-License-Identifier: LGPL-2.1-or-later
 
-__title__ = "Approximate extension"
+__title__ = "近似延伸 (Approximate extension)"
 __author__ = "Christophe Grellier (Chris_G)"
 __license__ = "LGPL 2.1"
-__doc__ = "Approximate extension for other FeaturePython objects."
+__doc__ = "为其他 FeaturePython 对象提供近似延伸功能。"
 
 import os
 import FreeCAD

@@ -1,12 +1,13 @@
 # SPDX-License-Identifier: LGPL-2.1-or-later
 
-__title__ = 'Flatten face'
-__author__ = 'Christophe Grellier (Chris_G)'
-__license__ = 'LGPL 2.1'
-__doc__ = 'Creates a flat developed face from conical and cylindrical faces'
-__usage__ = """You must select a conical or cylindrical face in the 3D View.
-InPlace property puts the unrolled face tangent to the source face (InPlace = True)
-or in the XY plane (InPlace = False)"""
+__title__ = "面展平"
+__author__ = "Christophe Grellier (Chris_G)"
+__license__ = "LGPL 2.1"
+__doc__ = "将圆柱面或圆锥面展开为平面的开发面。"
+__usage__ = """你必须在 3D 视图中选择一个圆柱面或圆锥面。
+“原位 (InPlace)”属性决定展开面的位置：
+- InPlace = True：展开面与源面保持相切。
+- InPlace = False：展开面放置在 XY 平面上。"""
 
 import os
 import FreeCAD

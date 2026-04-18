@@ -1,9 +1,9 @@
 # SPDX-License-Identifier: LGPL-2.1-or-later
 
-__title__ = 'Title'
+__title__ = '曲面分析'
 __author__ = 'Christophe Grellier (Chris_G)'
 __license__ = 'LGPL 2.1'
-__doc__ = 'Doc'
+__doc__ = '这个工具的核心作用是评估曲面质量'
 
 # import os
 import FreeCAD

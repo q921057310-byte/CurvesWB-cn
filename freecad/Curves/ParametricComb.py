@@ -1,9 +1,9 @@
 # SPDX-License-Identifier: LGPL-2.1-or-later
 
-__title__ = "Comb plot"
+__title__ = "梳状图 (Comb plot)"
 __author__ = "Christophe Grellier (Chris_G)"
 __license__ = "LGPL 2.1"
-__doc__ = 'Creates a parametric Comb plot on selected edges'
+__doc__ = '在所选边缘上创建参数化梳状图，用于曲率分析。'
 
 import os
 import FreeCAD

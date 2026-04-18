@@ -1,9 +1,9 @@
 # SPDX-License-Identifier: LGPL-2.1-or-later
 
-__title__ = "Helical Sweep"
+__title__ = "螺旋扫掠"
 __author__ = "Christophe Grellier (Chris_G)"
 __license__ = "LGPL 2.1"
-__doc__ = """Sweep an open wire along an helical path"""
+__doc__ = """沿螺旋路径扫掠一条开口线串 (Wire)"""
 
 import sys
 if sys.version_info.major >= 3:

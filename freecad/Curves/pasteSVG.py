@@ -1,12 +1,12 @@
 # SPDX-License-Identifier: LGPL-2.1-or-later
 
-__title__ = "Paste SVG"
+__title__ = "粘贴 SVG"
 __author__ = "Christophe Grellier (Chris_G)"
 __license__ = "LGPL 2.1"
-__doc__ = "Paste the SVG content of the clipboard"
-__usage__ = """When working in parallel with FreeCAD and a SVG editor (Inkscape),
-copy (CTRL-C) an object in the SVG editor, switch to FreeCAD and activate tool.
-This will import the SVG content of the clipboard into the active FreeCAD document."""
+__doc__ = "粘贴剪贴板中的 SVG 内容"
+__usage__ = """当同时使用 FreeCAD 和 SVG 编辑器（如 Inkscape）时，
+在 SVG 编辑器中复制 (Ctrl+C) 一个对象，切换回 FreeCAD 并激活此工具。
+这会将剪贴板中的 SVG 内容直接导入到当前活动的 FreeCAD 文档中。"""
 
 import xml.sax
 import importSVG

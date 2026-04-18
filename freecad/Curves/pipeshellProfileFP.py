@@ -1,9 +1,9 @@
 # SPDX-License-Identifier: LGPL-2.1-or-later
 
-__title__ = 'Pipeshell profile'
+__title__ = '管道外壳轮廓 (Pipeshell profile)'
 __author__ = "Christophe Grellier (Chris_G)"
 __license__ = "LGPL 2.1"
-__doc__ = 'Creates a Profile object for PipeShell'
+__doc__ = '为管道外壳 (Pipeshell) 创建轮廓对象。'
 
 import os
 import FreeCAD

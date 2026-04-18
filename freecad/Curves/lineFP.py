@@ -1,10 +1,10 @@
 # SPDX-License-Identifier: LGPL-2.1-or-later
 
-__title__ = "Parametric line"
+__title__ = "参数化直线"
 __author__ = "Christophe Grellier (Chris_G)"
 __license__ = "LGPL 2.1"
-__doc__ = "Parametric line between two vertexes."
-__usage__ = """Select 2 vertexes in the 3D View and activate the tool."""
+__doc__ = "在两个顶点之间创建参数化直线。"
+__usage__ = """在 3D 视图中选择 2 个顶点，然后激活该工具。"""
 
 import os
 import FreeCAD

@@ -1,12 +1,10 @@
 # SPDX-License-Identifier: LGPL-2.1-or-later
-
-__title__ = "GeomInfo"
+__title__ = "几何信息"
 __author__ = "Christophe Grellier (Chris_G)"
 __license__ = "LGPL 2.1"
-__doc__ = "Display geometry information about selected shape"
-__usage__ = """While active, this tool displays information about the geometry of an edge or face.
-It displays poles, knots and weights of Bezier and BSpline curves and surfaces in the 3D View."""
-
+__doc__ = "显示所选形状的几何详细信息"
+__usage__ = """激活后，此工具将显示边缘或表面的几何信息。
+它会在 3D 视图中直接显示贝塞尔（Bezier）和 B 样条（BSpline）曲线及曲面的控制点（Poles）、节点（Knots）和权重（Weights）。"""
 
 import os
 import re

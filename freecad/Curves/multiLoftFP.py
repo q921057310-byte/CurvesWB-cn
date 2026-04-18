@@ -1,9 +1,9 @@
 # SPDX-License-Identifier: LGPL-2.1-or-later
 
-__title__ = "MultiLoft"
+__title__ = "多重放样 (MultiLoft)"
 __author__ = "Christophe Grellier (Chris_G)"
 __license__ = "LGPL 2.1"
-__doc__ = """Loft profile objects made of multiple faces in parallel"""
+__doc__ = """对包含多个面的轮廓对象进行并行放样处理"""
 
 import os
 import FreeCAD

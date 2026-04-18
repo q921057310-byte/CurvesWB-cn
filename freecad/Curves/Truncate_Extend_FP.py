@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: LGPL-2.1-or-later
 
-__title__ = 'Truncate Extend'
+__title__ = '截断延伸 (Truncate Extend)'
 __author__ = 'Christophe Grellier (Chris_G)'
 __license__ = 'LGPL 2.1'
-__doc__ = '''Cut a shape with a plane and truncate or extend it by a given distance.
-In a PartDesign body, select only the cutting plane.
-Otherwise, select the shape to modify, and the cutting plane.'''
+__doc__ = '''使用平面切割形状，并按给定距离进行截断或延伸。
+在 PartDesign（零件设计）实体中，只需选择切割平面。
+在其他情况下，请选择要修改的形状以及切割平面。'''
 
 import os
 import FreeCAD

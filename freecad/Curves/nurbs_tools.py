@@ -1,9 +1,9 @@
 # SPDX-License-Identifier: LGPL-2.1-or-later
 
-__title__ = "Nurbs tools"
+__title__ = "NURBS 工具集"
 __author__ = "Christophe Grellier (Chris_G)"
 __license__ = "LGPL 2.1"
-__doc__ = "Collection of tools for Nurbs."
+__doc__ = "NURBS（非均匀有理 B 样条）相关工具集合。"
 
 import FreeCAD
 import Part

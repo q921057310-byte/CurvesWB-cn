@@ -171,8 +171,8 @@ class Plate:
 
     def GetResources(self):
         return {'Pixmap': path_curvesWB_icons+'/sw2r.svg',
-                'MenuText': 'Plate Surface',
-                'ToolTip': 'Plate Surface'}
+                'MenuText': '板式曲面 (Plate Surface)',
+                'ToolTip': '板式曲面：通过边界约束创建平滑曲面'}
 
 FreeCADGui.addCommand('Plate', Plate())
 

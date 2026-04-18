@@ -7,9 +7,9 @@ from . import ICONPATH
 
 
 class CurvesWorkbench(Gui.Workbench):
-    """FreeCAD workbench that offers a collection of tools mainly related to Nurbs curves and surfaces."""
-    MenuText = "Curves"
-    ToolTip = "a workbench dedicated to curves and surfaces"
+    """FreeCAD 工作台，提供了一系列主要与 NURBS 曲线和曲面相关的工具集合。"""
+    MenuText = "Curves 曲线"
+    ToolTip = "专注于曲线和曲面的工具集工作台"
     Icon = os.path.join(ICONPATH, "blendSurf.svg")
     toolbox = []
 

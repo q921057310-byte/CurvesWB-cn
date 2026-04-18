@@ -1,9 +1,9 @@
 # SPDX-License-Identifier: LGPL-2.1-or-later
 
-__title__ = "Manipulators"
+__title__ = "操纵器 (Manipulators)"
 __author__ = "Christophe Grellier (Chris_G)"
 __license__ = "LGPL 2.1"
-__doc__ = "FreeCAD interactive editing library"
+__doc__ = "FreeCAD 交互式编辑工具库"
 
 import sys
 if sys.version_info.major >= 3:

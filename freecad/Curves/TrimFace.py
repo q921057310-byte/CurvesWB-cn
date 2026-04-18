@@ -1,9 +1,9 @@
 # SPDX-License-Identifier: LGPL-2.1-or-later
 
-__title__ = 'Trim face'
+__title__ = '面剪裁 (Trim face)'
 __author__ = 'Christophe Grellier (Chris_G)'
 __license__ = 'LGPL 2.1'
-__doc__ = 'Trim a face with a projected curve'
+__doc__ = '使用投影曲线剪裁面。'
 
 import os
 import FreeCAD

@@ -1,15 +1,15 @@
 # SPDX-License-Identifier: LGPL-2.1-or-later
 
-__title__ = 'MapOnFace'
+__title__ = '面域映射 (MapOnFace)'
 __author__ = 'Christophe Grellier (Chris_G)'
 __license__ = 'LGPL 2.1'
-__doc__ = '''Map objects on a target face.
-This will replace SketchOnSurface.
-WORK IN PROGRESS. USE AT YOUR OWN RISKS.
-Three objects must be provided in sequence:
-- the source shapes to map on the target face
-- the target face on which the source shapes will be mapped
-- the object that represent the flat bounding box of the target face'''
+__doc__ = '''将对象映射到目标面上。
+该工具将取代 SketchOnSurface。
+开发中项目（WORK IN PROGRESS），请谨慎使用。
+必须按顺序提供三个对象：
+- 待映射到目标面的源形状 (Source shapes)
+- 接收映射的目标面 (Target face)
+- 代表目标面展开平面的外接矩形对象 (Flat bounding box)'''
 
 import os
 import FreeCAD

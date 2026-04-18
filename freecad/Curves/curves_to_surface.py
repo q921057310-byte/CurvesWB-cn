@@ -1,10 +1,9 @@
 # SPDX-License-Identifier: LGPL-2.1-or-later
 
-__title__ = "Curves to Surface"
+__title__ = "曲线转曲面"
 __author__ = "Christophe Grellier (Chris_G)"
 __license__ = "LGPL 2.1"
-__doc__ = "Interpolate curves to surface"
-
+__doc__ = "通过曲线插值生成曲面"
 import FreeCAD
 import Part
 from freecad.Curves import _utils

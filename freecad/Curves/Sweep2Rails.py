@@ -220,11 +220,10 @@ class s2rCommand:
         # myS2R.ViewObject.PointSize = 2.00000
         # myS2R.ViewObject.LineColor = (0.0,0.0,0.7)
         FreeCAD.ActiveDocument.recompute()
-
     def GetResources(self):
         return {'Pixmap': TOOL_ICON,
-                'MenuText': 'Sweep2Rails',
-                'ToolTip': 'Sweep profiles on 2 rails'}
+                'MenuText': '双轨扫掠 (Sweep2Rails)',
+                'ToolTip': '双轨扫掠：让截面轮廓沿着两条轨道曲线滑动生成曲面'}
 
 
 FreeCADGui.addCommand('sw2r', s2rCommand())

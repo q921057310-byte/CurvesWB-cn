@@ -31,14 +31,12 @@ vec2 = FreeCAD.Base.Vector2d
 
 
 class PointOnEdge:
-    """Defines a point and some derivative vectors
-    located at a given 'parameter' on an 'edge'.
-    The property 'continuity' defines the number of derivative vectors.
-    Example :
-    poe = PointOnEdge(myEdge, 0.0, 2)
+    """定义边上的一个点及其若干阶导数向量
+    属性 'continuity' 定义导数向量的阶数
+    示例：
+    poe = PointOnEdge(我的边, 0.0, 2)
     print(poe.vectors)
-    will return the point and the 2 derivatives located at parameter 0.0
-    on myEdge.
+    将返回边上参数 0.0 处的点和 2 阶导数
     """
     def __init__(self, edge, parameter=None, continuity=1, size=1.0):
         self._parameter = 0.0
@@ -74,7 +72,7 @@ class PointOnEdge:
         self.size = self._size
 
     def recompute_vectors(func):
-        """Decorator that recomputes the point and derivative vectors"""
+        """重新计算点和导数向量的装饰器"""
         def wrapper(self, arg):
             func(self, arg)
             self.set_vectors()
@@ -82,7 +80,7 @@ class PointOnEdge:
 
     @property
     def parameter(self):
-        "Defines the location of this PointOnEdge along the edge"
+        """定义该点在边上的参数位置"""
         return self._parameter
 
     @parameter.setter
@@ -97,7 +95,7 @@ class PointOnEdge:
 
     @property
     def distance(self):
-        "Defines the location of this PointOnEdge along the edge, by distance"
+        """通过距离定义该点在边上的位置"""
         segment = self._edge.Curve.toShape(self._edge.FirstParameter, self._parameter)
         return segment.Length
 
@@ -112,7 +110,7 @@ class PointOnEdge:
 
     @property
     def continuity(self):
-        "Defines the number of derivative vectors of this PointOnEdge"
+        """定义该点的导数向量阶数"""
         return self._continuity
 
     @continuity.setter
@@ -127,7 +125,7 @@ class PointOnEdge:
 
     @property
     def edge(self):
-        "The support edge of this PointOnEdge"
+        """该点的支撑边"""
         return self._edge
 
     @edge.setter
@@ -140,7 +138,7 @@ class PointOnEdge:
         else:
             self._edge = edge
 
-    # Public access to vectors
+    # 公开向量访问接口
     def __getitem__(self, key):
         if key < len(self._vectors):
             return self._vectors[key] * pow(self._scale, key)
@@ -160,12 +158,12 @@ class PointOnEdge:
 
     @property
     def size(self):
-        "The size of the tangent vector"
+        """切向量的长度大小"""
         return self._size
 
     @size.setter
     def size(self, val):
-        """Scale the vectors so that tangent has the given length"""
+        """缩放向量，使切向量达到指定长度"""
         if val < 0:
             self._size = min(-1e-7, val)
         else:
@@ -178,22 +176,22 @@ class PointOnEdge:
         return self._edge.ParameterRange
 
     def to_start(self):
-        "Set point on edge's start"
+        """移动到边的起点"""
         self.parameter = self._edge.FirstParameter
 
     def to_end(self):
-        "Set point on edge's end"
+        """移动到边的终点"""
         self.parameter = self._edge.LastParameter
 
     def reverse(self):
-        """Reverse the odd derivative vectors by inverting the scale"""
+        """通过反转缩放系数，反向奇数阶导数向量"""
         self.size = -self._size
 
     def get_tangent_edge(self):
         return Part.makeLine(self.point, self.point + self.tangent)
 
     def split_edge(self, first=True):
-        "Cut the support edge at parameter, and return a wire"
+        """在当前参数处切割支撑边，返回一条线"""
         if (self._parameter > self._edge.FirstParameter) and (self._parameter < self._edge.LastParameter):
             return self._edge.split(self._parameter)
         else:
@@ -208,7 +206,7 @@ class PointOnEdge:
             return self._edge.Curve.toShape(self._parameter, self._edge.LastParameter)
 
     def front_segment(self):
-        "Returns to edge segment that is in front of the tangent"
+        """返回切向量前方的边段"""
         if self._scale > 0:
             ls = self.last_segment()
             if ls:
@@ -220,7 +218,7 @@ class PointOnEdge:
         return []
 
     def rear_segment(self):
-        "Returns to edge segment that is behind the tangent"
+        """返回切向量后方的边段"""
         if self._scale < 0:
             ls = self.last_segment()
             if ls:
@@ -238,8 +236,9 @@ class PointOnEdge:
 
 
 class BlendCurve:
-    """BlendCurve generates a bezier curve that
-    smoothly interpolates two PointOnEdge objects"""
+    """过渡曲线：生成一条贝塞尔曲线，
+    平滑连接两个 PointOnEdge 对象
+    """
     def __init__(self, point1, point2):
         self.min_method = 'Nelder-Mead'
         self.min_options = {"maxiter": 2000, "disp": False}
@@ -265,7 +264,7 @@ class BlendCurve:
 
     @property
     def point1(self):
-        "The PointOnEdge object that defines the start of the BlendCurve"
+        """定义过渡曲线起点的 PointOnEdge 对象"""
         return self._point1
 
     @point1.setter
@@ -274,7 +273,7 @@ class BlendCurve:
 
     @property
     def point2(self):
-        "The PointOnEdge object that defines the end of the BlendCurve"
+        """定义过渡曲线终点的 PointOnEdge 对象"""
         return self._point2
 
     @point2.setter
@@ -283,7 +282,7 @@ class BlendCurve:
 
     @property
     def scale1(self):
-        "The scale of the first PointOnEdge object"
+        """第一个点的缩放比例"""
         return self.point1.size / self.chord_length
 
     @scale1.setter
@@ -292,7 +291,7 @@ class BlendCurve:
 
     @property
     def scale2(self):
-        "The scale of the second PointOnEdge object"
+        """第二个点的缩放比例"""
         return self.point2.size / self.chord_length
 
     @scale2.setter
@@ -301,7 +300,7 @@ class BlendCurve:
 
     @property
     def scales(self):
-        "The scales of the two PointOnEdge objects"
+        """两个点的缩放比例"""
         return self.scale1, self.scale2
 
     @scales.setter
@@ -315,16 +314,16 @@ class BlendCurve:
 
     @property
     def curve(self):
-        "Returns the Bezier curve that represent the BlendCurve"
+        """返回表示过渡曲线的贝塞尔曲线"""
         return self._curve
 
     @property
     def shape(self):
-        "Returns the edge that represent the BlendCurve"
+        """返回表示过渡曲线的边"""
         return self._curve.toShape()
 
     def perform(self, vecs=None):
-        "Generate the Bezier curve that interpolates the 2 points"
+        """生成插值两个点的贝塞尔曲线"""
         if vecs is None:
             self._curve.interpolate([self.point1.vectors, self.point2.vectors])
         else:
@@ -332,9 +331,9 @@ class BlendCurve:
         return self._curve
 
     def auto_orient(self, tol=1e-3):
-        """Automatically orient the 2 point tangents
-        blend_curve.auto_orient(tol=1e-3)
-        Tolerance is used to detect parallel tangents"""
+        """自动调整两个点的切向量方向
+        容差值用于检测平行切向量
+        """
         line1 = self.point1.get_tangent_edge()
         line2 = self.point2.get_tangent_edge()
         p1 = line1.Curve.parameter(self.point2.point)
@@ -345,29 +344,24 @@ class BlendCurve:
             self.scale2 = -self.scale2
 
     def auto_scale(self, auto_orient=True):
-        """Sets the scale of the 2 points proportional to chord length
-        blend_curve.auto_scale(auto_orient=True)
-        Can optionally start with an auto_orientation"""
-
-        # nb = self.point1.continuity + self.point2.continuity + 1
-        # chord_length = self.point1.point.distanceToPoint(self.point2.point)
-        # print("Tan1 : {:3.3f}, Tan2 : {:3.3f}".format(self.point1.tangent.Length, self.point2.tangent.Length))
-        self.scale1 = 1.0  # 0.5 / (1 + self.point1.continuity)
-        self.scale2 = 1.0  # 0.5 / (1 + self.point2.continuity)
+        """自动设置两点缩放比例，与弦长成比例
+        可选择先执行自动方向调整
+        """
+        self.scale1 = 1.0
+        self.scale2 = 1.0
         if auto_orient:
             self.auto_orient()
-        # print("Tan1 : {:3.3f}, Tan2 : {:3.3f}".format(self.point1.tangent.Length, self.point2.tangent.Length))
 
-    # Curve evaluation methods
+    # 曲线评估方法
     def _curvature_regularity_score(self, scales):
-        "Returns difference between max and min curvature along curve"
+        """返回曲线上最大曲率与最小曲率的差值"""
         self.scale1, self.scale2 = scales
         self.perform()
         curva_list = [self.curve.curvature(p / self.nb_samples) for p in range(self.nb_samples + 1)]
         return (max(curva_list) - min(curva_list))
 
     def _cp_regularity_score(self, scales):
-        "Returns difference between max and min distance between consecutive poles"
+        """返回连续控制点之间最大距离与最小距离的差值"""
         self.scale1, self.scale2 = scales
         self.perform()
         pts = self.curve.getPoles()
@@ -379,7 +373,7 @@ class BlendCurve:
         return poly.Length + (max(llist) - min(llist))
 
     def _total_cp_angular(self, scales):
-        "Returns difference between max and min angle between consecutive poles"
+        """返回连续控制点之间最大角度与最小角度的差值"""
         self.scale1, self.scale2 = scales
         self.perform()
         poly = Part.makePolygon(self.curve.getPoles())
@@ -389,8 +383,7 @@ class BlendCurve:
         return (max(angles) - min(angles))
 
     def set_regular_poles(self):
-        """Iterative function that sets
-        a regular distance between control points"""
+        """迭代优化：使控制点间距均匀规则"""
         self.scales = 1.0
         self.auto_orient()
         minimize(self._cp_regularity_score,
@@ -399,9 +392,7 @@ class BlendCurve:
                  options=self.min_options)
 
     def minimize_curvature(self):
-        """Iterative function that tries to minimize
-        the curvature along the curve
-        nb_samples controls the number of curvature samples"""
+        """迭代优化：最小化曲线曲率波动"""
         self.scales = 1.0
         self.auto_orient()
         minimize(self._curvature_regularity_score,
@@ -410,8 +401,7 @@ class BlendCurve:
                  options=self.min_options)
 
     def minimize_angular_variation(self):
-        """Iterative function that tries to minimize
-        the angular deviation between consecutive control points"""
+        """迭代优化：最小化控制点方向角变化"""
         self.scales = 1.0
         self.auto_orient()
         minimize(self._total_cp_angular,
@@ -421,8 +411,9 @@ class BlendCurve:
 
 
 class ValueOnEdge:
-    """Interpolates a float value along an edge.
-    voe = ValueOnEdge(anEdge, value=None)"""
+    """沿边插值浮点数值
+    voe = ValueOnEdge(一条边, 值=None)
+    """
     def __init__(self, edge, value=None):
         self._edge = edge
         self._curve = Part.BSplineCurve()
@@ -441,7 +432,7 @@ class ValueOnEdge:
         return [v.y for v in self._pts]
 
     def set(self, val):
-        "Set a constant value, or a list of regularly spaced values"
+        """设置常量值或一组均匀分布的数值列表"""
         self._pts = []
         if isinstance(val, (list, tuple)):
             if len(val) == 1:
@@ -454,37 +445,30 @@ class ValueOnEdge:
         self._compute()
 
     def _get_real_param(self, abs_par=None, rel_par=None, dist_par=None, point=None):
-        """Check range and return the real edge parameter from:
-        - the real parameter
-        - the normalized parameter in [0.0, 1.0]
-        - the distance from start (if positive) or end (if negative)"""
+        """检查范围，从以下参数返回真实边参数：
+        - 绝对参数
+        - 归一化参数 [0.0, 1.0]
+        - 距离（正=起点，负=终点）
+        """
         if abs_par is not None:
-            # if abs_par >= self._edge.FirstParameter and abs_par <= self._edge.LastParameter:
             return abs_par
         elif rel_par is not None:
-            # if rel_par >= 0.0 and rel_par <= 1.0:
             return self._edge.FirstParameter + rel_par * (self._edge.LastParameter - self._edge.FirstParameter)
         elif dist_par is not None:
-            # if abs(dist_par) <= self._edge.Length:
             return self._edge.getParameterByLength(dist_par)
         elif point is not None:
             p = self._edge.Curve.parameter(point)
             if self._closed:
-                # print(f"Closed - {p}")
-                # print(abs(p - self._edge.Curve.FirstParameter))
-                # print(abs(p - self._edge.Curve.LastParameter))
                 is_first = abs(p - self._edge.Curve.FirstParameter) < TOL3D
                 is_last = abs(p - self._edge.Curve.LastParameter) < TOL3D
                 if is_first:
                     if self._first_param_picked:
-                        # print("first parameter already picked")
                         p = self._edge.Curve.LastParameter
                         self._last_param_picked = True
                     else:
                         self._first_param_picked = True
                 if is_last:
                     if self._last_param_picked:
-                        # print("last parameter already picked")
                         p = self._edge.Curve.FirstParameter
                         self._first_param_picked = True
                     else:
@@ -494,16 +478,17 @@ class ValueOnEdge:
                     self._last_param_picked = False
             return p
         else:
-            raise ValueError("No parameter")
+            raise ValueError("未提供参数")
 
     def add(self, val, abs_par=None, rel_par=None, dist_par=None, point=None, recompute=True):
-        """Add a value on the edge at the given parameter.
-        Input:
-        - val : float value
-        - abs_par : the real parameter
-        - rel_par : the normalized parameter in [0.0, 1.0]
-        - dist_par : the distance from start (if positive) or end (if negative)
-        - recompute : if True(default), recompute the interpolating curve"""
+        """在指定参数处为边添加一个数值
+        输入：
+        - val：浮点数值
+        - abs_par：绝对参数
+        - rel_par：归一化参数
+        - dist_par：距离
+        - recompute：是否立即重新计算插值曲线
+        """
         par = self._get_real_param(abs_par, rel_par, dist_par, point)
         self._pts.append(FreeCAD.Vector(par, val, 0.0))
         self._pts = sorted(self._pts, key=itemgetter(0))
@@ -518,18 +503,12 @@ class ValueOnEdge:
             return
         par = [p.x for p in self._pts]
         if self._edge.isClosed() and self._edge.Curve.isPeriodic() and len(self._pts) > 2:
-            # print(self._pts[:-1])
-            # print(par)
             self._curve.interpolate(Points=self._pts[:-1], Parameters=par, PeriodicFlag=True)
         else:
             self._curve.interpolate(Points=self._pts, Parameters=par, PeriodicFlag=False)
 
     def value(self, abs_par=None, rel_par=None, dist_par=None):
-        """Returns an interpolated value at the given parameter.
-        Input:
-        - abs_par : the real parameter
-        - rel_par : the normalized parameter in [0.0, 1.0]
-        - dist_par : the distance from start (if positive) or end (if negative)"""
+        """返回指定参数处的插值数值"""
         if len(self._pts) == 1:
             return self._pts[0].y
         par = self._get_real_param(abs_par, rel_par, dist_par)
@@ -545,9 +524,10 @@ def mul2d(vec, fac):
 
 
 def curve2d_extend(curve, start=0.5, end=0.5):
-    """Extends a Geom2d curve at each extremity, by a linear tangent
-    "start" and "end" parameters are factors of curve length.
-    Returns a BSplineCurve."""
+    """通过线性切线延伸二维几何曲线的两端
+    start 和 end 是曲线长度的比例系数
+    返回 B 样条曲线
+    """
     bs = curve.toBSpline(curve.FirstParameter, curve.LastParameter)
     t1 = mul2d(bs.tangent(bs.FirstParameter), -1.0)
     t2 = bs.tangent(bs.LastParameter)
@@ -588,8 +568,9 @@ def intersection2d(curve, c1, c2):
 
 
 def get_offset_curve(bc, c1, c2, dist=0.1):
-    """computes the offsetcurve2d that is at distance dist from curve bc, that intersect c1 and c2.
-    Returns the offset curve and the intersection points"""
+    """计算距离 bc 曲线 dist 的二维偏移曲线，要求与 c1、c2 相交
+    返回偏移曲线和交点
+    """
     off1 = Part.Geom2d.OffsetCurve2d(bc, dist)
     intersec = intersection2d(off1, c1, c2)
     if intersec:
@@ -612,9 +593,9 @@ def get_offset_curve(bc, c1, c2, dist=0.1):
 
 
 class EdgeOnFace:
-    """Defines an edge located on a face.
-    Provides derivative data to create smooth surface from this edge.
-    The property 'continuity' defines the number of derivative vectors.
+    """定义位于面上的一条边
+    提供导数数据，用于从该边创建光滑曲面
+    属性 'continuity' 定义导数向量阶数
     """
     def __init__(self, edge, face, continuity=1):
         self._face = face
@@ -631,38 +612,23 @@ class EdgeOnFace:
                                                    self.continuity)
 
     def _get_real_param(self, abs_par=None, rel_par=None, dist_par=None):
-        """Check range and return the real edge parameter from:
-        - the real parameter
-        - the normalized parameter in [0.0, 1.0]
-        - the distance from start (if positive) or end (if negative)"""
+        """检查范围，返回真实边参数"""
         if abs_par is not None:
-            # if abs_par < self._edge.FirstParameter:
-            #    abs_par = self._edge.FirstParameter
-            # elif abs_par > self._edge.LastParameter:
-            #    abs_par = self._edge.LastParameter
             return abs_par
         elif rel_par is not None:
-            # if rel_par < 0.0:
-            #   rel_par = 0.0
-            # elif rel_par > 1.0:
-            #   rel_par = 1.0
             return self._edge.FirstParameter + rel_par * (self._edge.LastParameter - self._edge.FirstParameter)
         elif dist_par is not None:
-            # if dist_par < -self._edge.Length:
-            #   dist_par = -self._edge.Length
-            # elif dist_par > self._edge.Length:
-            #   dist_par = self._edge.Length
             return self._edge.getParameterByLength(dist_par)
         else:
-            raise ValueError("No parameter")
+            raise ValueError("未提供参数")
 
     def _relative_param(self, par):
-        "returns relative parameter corresponding to given real parameter"
+        """返回给定真实参数对应的归一化参数"""
         return (par - self._edge.FirstParameter) / (self._edge.LastParameter - self._edge.FirstParameter)
 
     @property
     def continuity(self):
-        "Defines the number of derivative vectors of this EdgeOnFace"
+        """定义该面边的导数向量阶数"""
         return self._continuity
 
     @continuity.setter
@@ -676,7 +642,7 @@ class EdgeOnFace:
 
     @property
     def angle(self):
-        "Returns the object that defines angle along the edge"
+        """返回定义沿边角度的对象"""
         return self._angle
 
     @angle.setter
@@ -685,7 +651,7 @@ class EdgeOnFace:
 
     @property
     def size(self):
-        "Returns the object that defines size along the edge"
+        """返回定义沿边大小的对象"""
         return self._size
 
     @size.setter
@@ -701,16 +667,15 @@ class EdgeOnFace:
             if len(c) == 3:
                 cos.append(c[0].toBSpline(c[1], c[2]))
             else:
-                FreeCAD.Console.PrintError("failed to extract 2D geometry")
+                FreeCAD.Console.PrintError("提取二维几何失败")
             if e.isPartner(self._edge):
                 idx = n
 
-        # idx is the index of the curve to offset
-        # get the index of the 2 neighbour curves
+        # 获取相邻曲线索引
         id1 = idx - 1 if idx > 0 else nbe - 1
         id2 = idx + 1 if idx < nbe - 1 else 0
 
-        # get offset curve
+        # 获取偏移曲线
         off = get_offset_curve(cos[idx], cos[id1], cos[id2], dist)
         if off:
             p1 = off[0].parameter(off[1])
@@ -743,11 +708,10 @@ class EdgeOnFace:
         off_par = self._offset.FirstParameter + self._relative_param(par) * (self._offset.LastParameter - self._offset.FirstParameter)
         line = Part.Geom2d.Line2dSegment(self._offset.value(off_par), cos.value(par))
         line3d = line.toShape(self._face.Surface)
-        # line3d.reverse()
         return line3d
 
     def valueAtPoint(self, pt):
-        "Returns PointOnEdge object at given point"
+        """返回给定点处的 PointOnEdge 对象"""
         if isinstance(pt, FreeCAD.Vector):
             par = self._edge.Curve.parameter(pt)
             if par < self._edge.FirstParameter and self._edge.Curve.isClosed():
@@ -758,10 +722,7 @@ class EdgeOnFace:
             return self.value(abs_par=par)
 
     def value(self, abs_par=None, rel_par=None, dist_par=None):
-        """Returns PointOnEdge object at given parameter:
-        - abs_par : the real parameter
-        - rel_par : the normalized parameter in [0.0, 1.0]
-        - dist_par : the distance from start (if positive) or end (if negative)"""
+        """返回指定参数处的 PointOnEdge 对象"""
         par = self._get_real_param(abs_par, rel_par, dist_par)
         cc = self.cross_curve(abs_par=par)
         d, pts, info = cc.distToShape(self._edge)
@@ -772,19 +733,19 @@ class EdgeOnFace:
             return poe
 
     def discretize(self, num=10):
-        "Returns a list of num PointOnEdge objects along edge"
+        """返回沿边均匀分布的 num 个 PointOnEdge 对象列表"""
         poe = []
         for i in np.linspace(0.0, 1.0, num):
             poe.append(self.value(rel_par=i))
         return poe
 
     def shape(self, num=10):
-        "Returns a compound of num PointOnEdge objects along edge"
+        """返回沿边 num 个 PointOnEdge 对象的组合体"""
         return Part.Compound([poe.rear_segment() for poe in self.discretize(num)])
 
 
 class BlendSurface:
-    """BSpline surface that smoothly interpolates two EdgeOnFace objects"""
+    """B 样条曲面：平滑连接两个 EdgeOnFace 对象"""
     def __init__(self, edge1, face1, edge2, face2):
         self.edge1 = EdgeOnFace(edge1, face1)
         self.edge2 = EdgeOnFace(edge2, face2)
@@ -801,7 +762,7 @@ class BlendSurface:
 
     @property
     def continuity(self):
-        "Returns the continuities of the BlendSurface"
+        """返回过渡曲面的连续性"""
         return [self.edge1.continuity, self.edge2.continuity]
 
     @continuity.setter
@@ -815,39 +776,32 @@ class BlendSurface:
 
     @property
     def curves(self):
-        "Returns the Blend curves that represent the BlendSurface"
+        """返回构成过渡曲面的过渡曲线"""
         return self._curves
 
     @property
     def edges(self):
-        "Returns the compound of edges that represent the BlendSurface"
+        """返回过渡曲线的边组合体"""
         el = [c.toShape() for c in self._curves]
         return Part.Compound(el)
 
     @property
     def surface(self):
-        "Returns the BSpline surface that represent the BlendSurface"
-        # self.perform()
+        """返回表示过渡曲面的 B 样条曲面"""
         guides = [bezier.toBSpline() for bezier in self._curves]
-        # builder = GordonSurfaceBuilder(guides, self.rails, [0.0, 1.0], self._params)
-        # s2r = curves_to_surface.CurvesOn2Rails(guides, self.rails)
         cts = curves_to_surface.CurvesToSurface(guides)
-        # cts.set_parameters(1.0)
         cts.Parameters = self._params
         s1 = cts.interpolate()
         s2 = curves_to_surface.ruled_surface(self.rails[0].toShape(), self.rails[1].toShape(), True).Surface
         s2.exchangeUV()
         s3 = curves_to_surface.U_linear_surface(s1)
         gordon = curves_to_surface.Gordon(s1, s2, s3)
-        # Part.show(s1.toShape())
-        # Part.show(s2.toShape())
-        # Part.show(s3.toShape())
         self._surface = gordon.Surface
         return self._surface
 
     @property
     def face(self):
-        "Returns the face that represent the BlendSurface"
+        """返回表示过渡曲面的面"""
         return self.surface.toShape()
 
     @property
@@ -879,11 +833,9 @@ class BlendSurface:
         e1, e2 = self.rails
         for p in self.sample(arg):
             bc = self.blendcurve_at(p)
-            # print("Minimizing curvature @ {:3.3f} = ({:3.3f}, {:3.3f})".format(p, bc.point1.size, bc.point2.size))
             bc.minimize_curvature()
             self.edge1.size.add(val=bc.point1.size, point=e1.value(p))
             self.edge2.size.add(val=bc.point2.size, point=e2.value(p))
-            # print("Minimized curvature @ {:3.3f} = ({:3.3f}, {:3.3f})".format(p, bc.point1.size, bc.point2.size))
 
     def auto_scale(self, arg=3):
         self.edge1.size.reset()
@@ -892,23 +844,20 @@ class BlendSurface:
         for p in self.sample(arg):
             bc = self.blendcurve_at(p)
             bc.auto_scale()
-            # print(f"{bc.point1.size}, {e1.value(p)}")
             self.edge1.size.add(val=bc.point1.size, point=e1.value(p))
             self.edge2.size.add(val=bc.point2.size, point=e2.value(p))
-            # print("Auto scaling @ {:3.3f} = ({:3.3f}, {:3.3f})".format(p, bc.point1.size, bc.point2.size))
 
     def perform(self, arg=20):
         bc_list = []
         for p in self.sample(arg):
             bc = self.blendcurve_at(p)
-            # print("Computing BlendCurve @ {} from {} to {}".format(p, bc.point1.point, bc.point2.point))
             bc_list.append(bc.perform())
         self._curves = bc_list
         self._params = self.sample(arg)
 
 
 def test_blend_surface():
-    doc1 = FreeCAD.ActiveDocument  # test_BlendSurface_1.FCStd
+    doc1 = FreeCAD.ActiveDocument
     o1 = doc1.getObject('Ruled_Surface001')
     e1 = o1.Shape.Edge1
     f1 = o1.Shape.Face1
@@ -921,22 +870,19 @@ def test_blend_surface():
     num = 21
 
     bs = bc.BlendSurface(e1, f1, e2, f2)
-    # bs.edge1.angle = (90, 80, 100, 90)
-    # bs.edge2.angle = (90, 90, 90, 70)
     bs.continuity = 3
     bs.minimize_curvature()
-    # bs.auto_scale()
     bs.perform(num)
     Part.show(bs.edges)
     bsface = bs.face
     Part.show(bsface)
     shell = Part.Shell([f1, bsface, f2])
-    print("Valid shell : {}".format(shell.isValid()))
+    print("有效壳层 : {}".format(shell.isValid()))
     shell.check(True)
 
 
 def main():
-    # selection
+    """主函数：选择两条边创建平滑过渡曲线"""
     sel = FreeCADGui.Selection.getSelectionEx()
     edges = []
     pp = []
@@ -952,18 +898,15 @@ def main():
     start = time()
     poe1 = PointOnEdge(e0, p0, 3)
     poe2 = PointOnEdge(e1, p1, 3)
-    poe1.scale1 = 0.1
-    poe2.scale2 = 0.1
+    poe1.size = 0.1
+    poe2.size = 0.1
     fillet = BlendCurve(poe1, poe2)
     fillet.nb_samples = 200
     fillet.auto_orient()
-    # fillet.auto_scale()
-    # fillet.minimize_angular_variation()
-    # fillet.set_regular_poles()
     fillet.minimize_curvature()
     fillet.perform()
-    print("Minimize time = {}s".format(time() - start))
-    print("Final scales = {} - {}".format(poe1.tangent.Length, poe2.tangent.Length))
+    print("优化耗时 = {}s".format(time() - start))
+    print("最终缩放长度 = {} - {}".format(poe1.tangent.Length, poe2.tangent.Length))
     Part.show(fillet.curve.toShape())
     return fillet
 

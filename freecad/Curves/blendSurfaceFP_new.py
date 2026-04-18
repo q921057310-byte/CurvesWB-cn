@@ -1,12 +1,12 @@
 # SPDX-License-Identifier: LGPL-2.1-or-later
 
-__title__ = "BlendSurface"
+__title__ = "曲面混接 (BlendSurface)"
 __author__ = "Christophe Grellier (Chris_G)"
 __license__ = "LGPL 2.1"
-__doc__ = "Create a surface between two edges with some continuity with their support faces"
-__usage__ = """You must select 4 subshapes in the 3D View :
-- EDGE1 on FACE1
-- EDGE2 on FACE2"""
+__doc__ = "在两条边缘之间创建一个曲面，并与其支撑面保持一定的连续性。"
+__usage__ = """您必须在 3D 视图中选择 4 个子形状：
+- 面 1 (FACE1) 上的 边缘 1 (EDGE1)
+- 面 2 (FACE2) 上的 边缘 2 (EDGE2)"""
 
 import os
 import FreeCAD

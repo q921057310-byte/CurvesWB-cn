@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: LGPL-2.1-or-later
 
-__title__ = 'Objects to Console'
+__title__ = '对象导出到控制台'
 __author__ = 'Christophe Grellier (Chris_G)'
 __license__ = 'LGPL 2.1'
-__doc__ = 'Give access to the selected objects in the python console.'
-__usage__ = """Select some objects in the TreeView, or in the 3D View, and activate tool.
-Some variables will be created in the python console, to access the selection."""
+__doc__ = '在 Python 控制台中直接访问所选对象。'
+__usage__ = """在树状视图 (TreeView) 或 3D 视图中选择若干对象，然后激活工具。
+系统将在 Python 控制台中创建相应的变量，以便您通过代码访问这些选定对象。"""
 
 import FreeCAD
 import FreeCADGui

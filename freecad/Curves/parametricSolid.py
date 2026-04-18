@@ -1,14 +1,14 @@
 # SPDX-License-Identifier: LGPL-2.1-or-later
 
-__title__ = "Parametric solid"
+__title__ = "参数化实体"
 __author__ = "Christophe Grellier (Chris_G)"
 __license__ = "LGPL 2.1"
-__doc__ = "Make a parametric solid from selected faces."
-__usage__ = """Select some faces in the 3D View, or select objects in the Tree View.
-Activate tool.
-It will try to build a solid from selected faces.
-If not possible, it falls back to a shell, then to a compound.
-The ShapeStatus property (and the color of the icon) give the type of shape."""
+__doc__ = "从选定的面创建参数化实体。"
+__usage__ = """在 3D 视图中选择若干面，或在树状视图中选择对象。
+激活该工具。
+程序将尝试根据选定的面构建一个实体 (Solid)。
+如果无法构建实体，则退而求其次生成壳体 (Shell)，最后是复合体 (Compound)。
+ShapeStatus（形状状态）属性及图标颜色会提示最终生成的形状类型。"""
 
 import os
 import FreeCAD

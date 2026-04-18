@@ -1,10 +1,10 @@
 # SPDX-License-Identifier: LGPL-2.1-or-later
 
-__title__ = "Macro IsoCurves"
+__title__ = "等值线宏 (IsoCurves)"
 __author__ = "Chris_G"
 __doc__ = '''
-Macro IsoCurves.
-Creates a parametric isoCurve from a face
+等值线宏 (IsoCurves)。
+从选定的面创建参数化的等值线。
 
 Instructions:
 Select a face in the 3D View.
@@ -206,9 +206,9 @@ class CommandMacroIsoCurve:
 
     def GetResources(self):
         return {'Pixmap': TOOL_ICON,
-                'MenuText': "IsoCurve",
+                'MenuText': "等值线IsoCurve",
                 'Accel': "",
-                'ToolTip': "IsoCurve: Create an IsoCurve from a face"}
+                'ToolTip': "等值线：从选定的面创建一条等值线IsoCurve"}
 
     def Activated(self):
         run()

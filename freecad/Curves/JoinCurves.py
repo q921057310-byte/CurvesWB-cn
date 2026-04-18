@@ -1,12 +1,12 @@
 # SPDX-License-Identifier: LGPL-2.1-or-later
 
-__title__ = "joinCurves"
+__title__ = "连接曲线"
 __author__ = "Christophe Grellier (Chris_G)"
 __license__ = "LGPL 2.1"
-__doc__ = "Joins the selected edges into a BSpline Curve"
-__usage__ = """Select the edges to join in the 3D View, or select an object containing multiple edges in the Tree View.
-Activate the tool.
-The output is a single BSpline curve joining all selected edges."""
+__doc__ = "将所选边缘连接为一条 B 样条 (BSpline) 曲线。"
+__usage__ = """在 3D 视图中选择要连接的边缘，或在树状视图中选择包含多个边缘的对象。
+激活该工具。
+输出结果为一条连接了所有选定边缘的单一 B 样条曲线。"""
 
 import os
 import FreeCAD

@@ -1,15 +1,15 @@
 # SPDX-License-Identifier: LGPL-2.1-or-later
 
-__title__ = "Reflect Lines"
+__title__ = "反射线 (Reflect Lines)"
 __author__ = "Christophe Grellier (Chris_G)"
 __license__ = "LGPL 2.1"
-__doc__ = "Creates the reflect lines on a shape, according to a view direction"
-__usage__ = """Select an object and activate tool.
-This will create reflect lines according to the current view direction.
-If selected object is a ReflectLines object, the view direction will be updated to the current camera direction.
-If property OnShape is True, the lines will be ON the input shape (ViewPos and UpDir properties won't be used).
-Otherwise, lines will be on the XY plane.
-If view property TrackCam is True, the view direction will keep updating upon camera movements.
+__doc__ = "根据视图方向在形状上生成反射线（斑马线分析辅助）。"
+__usage__ = """选择一个对象并激活工具。
+系统将根据当前的摄像机视图方向创建反射线。
+如果选中的已是反射线对象，视图方向将更新为当前的摄像机方向。
+若 OnShape 属性为 True，反射线将直接显示在输入形状表面（此时不使用 ViewPos 和 UpDir 属性）。
+否则，反射线将投影在 XY 平面上。
+若 TrackCam（追踪相机）属性为 True，反射线将随相机转动实时更新方向。
 """
 
 import os

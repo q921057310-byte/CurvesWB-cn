@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: LGPL-2.1-or-later
 
-__title__ = 'Draft Analysis'
-__author__ = 'Christophe Grellier (Chris_G)'
-__license__ = 'LGPL 2.1'
-__doc__ = '''Create a colored overlay on an object to visualize draft angles.
-Tool options are in the View tab.
-Mouse clics in the colored areas print measured draft angle in the Report View.'''
+__title__ = "拔模分析"
+__author__ = "Christophe Grellier (Chris_G)"
+__license__ = "LGPL 2.1"
+__doc__ = """在对象上创建彩色覆盖层以可视化拔模角度。
+工具选项位于“视图”选项卡中。
+在彩色区域点击鼠标，可在报告视图中打印测得的拔模角度。"""
 
 import FreeCAD
 import FreeCADGui

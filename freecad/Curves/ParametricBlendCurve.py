@@ -1,9 +1,9 @@
 # SPDX-License-Identifier: LGPL-2.1-or-later
 
-__title__ = "Blend curve"
+__title__ = "过渡曲线 (Blend curve)"
 __author__ = "Christophe Grellier (Chris_G)"
 __license__ = "LGPL 2.1"
-__doc__ = "Blend curve between two edges.  Double-clic object to enable/disable freehand mouse editing."
+__doc__ = "在两条边缘之间创建过渡曲线。双击对象可启用/禁用鼠标手绘编辑模式。"
 
 import os
 import FreeCAD

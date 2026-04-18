@@ -1,9 +1,9 @@
 # SPDX-License-Identifier: LGPL-2.1-or-later
 
-__title__ = "Face Map"
+__title__ = "面展开映射"
 __author__ = "Christophe Grellier (Chris_G)"
 __license__ = "LGPL 2.1"
-__doc__ = """Flat map of a 3D face"""
+__doc__ = """将 3D 面平整展开为平面映射 (Flat map)"""
 
 import os
 import FreeCAD

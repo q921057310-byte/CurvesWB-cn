@@ -1,9 +1,9 @@
 # SPDX-License-Identifier: LGPL-2.1-or-later
 
-__title__ = "Curve re-parametrize"
+__title__ = "曲线重参数化 (Re-parametrize)"
 __author__ = "Christophe Grellier (Chris_G)"
 __license__ = "LGPL 2.1"
-__doc__ = """reparametrize a curve to match another one"""
+__doc__ = """重新参数化一条曲线，使其与另一条曲线的参数分布相匹配。"""
 
 #import sys
 #if sys.version_info.major >= 3:

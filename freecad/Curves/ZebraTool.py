@@ -146,8 +146,8 @@ class ZebraTool:
 
     def GetResources(self):
         return {'Pixmap': TOOL_ICON,
-                'MenuText': 'ZebraTool',
-                'ToolTip': 'Zebra texture for surface inspection'}
+                'MenuText': '斑马线分析 (ZebraTool)',
+                'ToolTip': '斑马线纹理：用于检查曲面的平滑度和连续性'}
 
 
 FreeCADGui.addCommand('ZebraTool', ZebraTool())

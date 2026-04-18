@@ -1,15 +1,15 @@
 # SPDX-License-Identifier: LGPL-2.1-or-later
 
-__title__ = "Segment surface"
+__title__ = "面域分割 (Segment surface)"
 __author__ = "Christophe Grellier (Chris_G)"
 __license__ = "LGPL 2.1"
-__doc__ = """Segment a surface on isocurves"""
-__usage__ = """Select a face in the 3D view and activate tool.
-The face will be converted to a BSpline surface.
-In Auto mode, the surface will be segmented along isocurves of highest multiplicity.
-In Custom mode, it will be segmented along isocurves of specified parameters.
-These parameters can be provided by an external object that have a NormalizedParameters property,
-like the Discretize, or the SplitCurve tools."""
+__doc__ = """根据等值线分割曲面。"""
+__usage__ = """在 3D 视图中选择一个面并激活工具。
+该面将被转换为 B 样条 (BSpline) 曲面。
+在“自动 (Auto)”模式下，曲面将沿着重数（Multiplicity）最高的等值线进行分割。
+在“自定义 (Custom)”模式下，曲面将沿着指定参数的等值线进行分割。
+这些参数可以由具有 NormalizedParameters（归一化参数）属性的外部对象提供，
+例如离散化 (Discretize) 工具或分割曲线 (SplitCurve) 工具。"""
 
 import os
 

@@ -1,9 +1,9 @@
 # SPDX-License-Identifier: LGPL-2.1-or-later
 
-__title__ = "Sublink Editor"
+__title__ = "子链接编辑器 (Sublink Editor)"
 __author__ = "Christophe Grellier (Chris_G)"
 __license__ = "LGPL 2.1"
-__doc__ = "Editor widget for sublink properties of objects"
+__doc__ = "用于编辑对象子链接 (Sublink) 属性的编辑器组件。"
 
 import os
 import FreeCAD

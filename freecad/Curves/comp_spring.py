@@ -1,10 +1,9 @@
 # SPDX-License-Identifier: LGPL-2.1-or-later
 
-__title__ = "Compression Spring"
+__title__ = "压缩弹簧"
 __author__ = "Christophe Grellier (Chris_G)"
 __license__ = "LGPL 2.1"
-__doc__ = """Parametric Compression Spring"""
-
+__doc__ = """参数化压缩弹簧"""
 import sys
 if sys.version_info.major >= 3:
     from importlib import reload

@@ -1,9 +1,9 @@
 # SPDX-License-Identifier: LGPL-2.1-or-later
 
-__title__ = "Curves workbench utilities"
+__title__ = "Curves 工作台实用程序"
 __author__ = "Christophe Grellier (Chris_G)"
 __license__ = "LGPL 2.1"
-__doc__ = "Curves workbench utilities common to all tools."
+__doc__ = "Curves 工作台所有工具通用的实用程序库。"
 
 import FreeCAD
 import Part

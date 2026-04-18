@@ -1,9 +1,9 @@
 # SPDX-License-Identifier: LGPL-2.1-or-later
 
-__title__ = "Approximate"
+__title__ = "近似拟合 (Approximate)"
 __author__ = "Christophe Grellier (Chris_G)"
 __license__ = "LGPL 2.1"
-__doc__ = "Approximate a set of points."
+__doc__ = "对一组点集进行近似拟合。"
 
 import os
 import FreeCAD
@@ -412,8 +412,8 @@ class approx:
 
     def GetResources(self):
         return {'Pixmap': TOOL_ICON,
-                'MenuText': 'Approximate',
-                'ToolTip': 'Approximate points to NURBS curve or surface'}
+                'MenuText': '拟合',
+                'ToolTip': '将点拟合为 NURBS 曲线或曲面'}
 
 
 FreeCADGui.addCommand('Approximate', approx())

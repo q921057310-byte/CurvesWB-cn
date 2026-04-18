@@ -1,10 +1,10 @@
 # SPDX-License-Identifier: LGPL-2.1-or-later
 
-__title__ = "BlendSolid"
+__title__ = "实体混接 (BlendSolid)"
 __author__ = "Christophe Grellier (Chris_G)"
 __license__ = "LGPL 2.1"
-__doc__ = "Create a solid between two faces with some continuity with their support shapes"
-__usage__ = "Select a face on each of the two solids to blend, in the 3D View."
+__doc__ = "在两个面之间创建一个实体，并与其支撑形状保持一定的连续性。"
+__usage__ = "在 3D 视图中，分别从两个需要混接的实体上各选择一个面。"
 
 import os
 import FreeCAD
@@ -245,7 +245,7 @@ class BlendSolidCommand:
     def GetResources(self):
         return {'Pixmap': TOOL_ICON,
                 'MenuText': __title__,
-                'ToolTip': "{}<br><br><b>Usage :</b><br>{}".format(__doc__, "<br>".join(__usage__.splitlines()))}
+                'ToolTip': "{}<br><br><b>用法：</b><br>{}".format(__doc__, "<br>".join(__usage__.splitlines()))}
 
 
 FreeCADGui.addCommand('Curves_BlendSolid', BlendSolidCommand())

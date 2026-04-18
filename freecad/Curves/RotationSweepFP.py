@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: LGPL-2.1-or-later
 
-__title__ = 'Rotation Sweep'
+__title__ = '旋转扫掠 (Rotation Sweep)'
 __author__ = 'Christophe Grellier (Chris_G)'
 __license__ = 'LGPL 2.1'
-__doc__ = 'Sweep some profiles along a path, and around a point'
-__usage__ = """Select a sweep path and some profiles in the 3D View.
-If TrimPath is False, the Sweep surface will be extrapolated to fit the whole path."""
+__doc__ = '让截面轮廓沿路径移动，同时绕特定点进行旋转扫掠。'
+__usage__ = """在 3D 视图中选择一条扫掠路径 (Path) 和若干截面轮廓 (Profiles)。
+如果 TrimPath（修剪路径）属性为 False，扫掠曲面将向外外推（延伸）以拟合整条路径。"""
 
 import os
 import FreeCAD

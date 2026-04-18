@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: LGPL-2.1-or-later
 
-__title__ = "Select Adjacent faces"
+__title__ = "选择相邻面 (Select Adjacent faces)"
 __author__ = "Christophe Grellier (Chris_G)"
 __license__ = "LGPL 2.1"
-__doc__ = "Select the Adjacent faces of the selected subshape"
-__usage__ = """Select a face or an edge in the 3D View, activate tool
-and all the faces that touch it will be added to the selection."""
+__doc__ = "选择选定子形状的相邻面。"
+__usage__ = """在 3D 视图中选择一个面或一条边缘，然后激活工具，
+所有与之接触的面都将被添加到当前选择集中。"""
 
 import os
 import FreeCAD
@@ -75,7 +75,7 @@ class adjacentfacesCommand:
     def GetResources(self):
         return {'Pixmap': TOOL_ICON,
                 'MenuText': __title__,
-                'ToolTip': "{}<br><br><b>Usage :</b><br>{}<br>".format(__doc__, __usage__)}
+                'ToolTip': "{}<br><br><b>用法：</b><br>{}<br>".format(__doc__, __usage__)}
 
 
 addCommand('Curves_adjacent_faces', adjacentfacesCommand())

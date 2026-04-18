@@ -1,9 +1,9 @@
 # SPDX-License-Identifier: LGPL-2.1-or-later
 
-__title__ = 'WaterLine'
+__title__ = '等高线/水线 (WaterLine)'
 __author__ = 'Christophe Grellier (Chris_G)'
 __license__ = 'LGPL 2.1'
-__doc__ = 'Generates waterline curves on selected surfaces'
+__doc__ = '在选定的曲面上生成水线曲线（等高线）。'
 
 import os
 import FreeCAD

@@ -1,9 +1,9 @@
 # SPDX-License-Identifier: LGPL-2.1-or-later
 
-__title__ = "Sketch on surface"
+__title__ = "曲面草图 (Sketch on surface)"
 __author__ = "Christophe Grellier (Chris_G)"
 __license__ = "LGPL 2.1"
-__doc__ = "Map a sketch on a surface"
+__doc__ = "将草图映射到曲面上。"
 
 import os
 import FreeCAD

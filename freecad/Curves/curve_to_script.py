@@ -1,12 +1,11 @@
 # SPDX-License-Identifier: LGPL-2.1-or-later
 
-__title__ = "BSpline to script"
+__title__ = "B 样条转脚本"
 __author__ = "Christophe Grellier (Chris_G)"
 __license__ = "LGPL 2.1"
-__doc__ = "Creates a python script to build the selected BSpline or Bezier geometries."
-__usage__ = """Select some Bezier or BSpline curves or surfaces in the 3D View and activate the tool.
-The selected curves  or surfaces will be re-created with commands in the python console."""
-
+__doc__ = "生成用于构建所选 B 样条（BSpline）或贝塞尔（Bezier）几何体的 Python 脚本。"
+__usage__ = """在 3D 视图中选择一些贝塞尔或 B 样条曲线/曲面，然后激活此工具。
+所选的曲线或曲面将通过 Python 控制台中的命令重新创建。"""
 import os
 import FreeCAD
 import FreeCADGui
@@ -82,12 +81,12 @@ def nurbs_to_script(i, c):
 
 
 class NurbsToConsole:
-    "Brings the selected BSpline curves to the python console"
+    "将选定的 B 样条曲线（BSpline）输出到 Python 控制台"
     def GetResources(self):
         return {'Pixmap': TOOL_ICON,
-                'MenuText': "BSpline to Console",
+                'MenuText': "B 样条曲线转控制台",
                 'Accel': "",
-                'ToolTip': "{}<br><br><b>Usage :</b><br>{}".format(__doc__, "<br>".join(__usage__.splitlines()))}
+                'ToolTip': "{}<br><br><b>用法：</b><br>{}".format(__doc__, "<br>".join(__usage__.splitlines()))}
 
     def Activated(self):
         s = FreeCADGui.Selection.getSelectionEx()

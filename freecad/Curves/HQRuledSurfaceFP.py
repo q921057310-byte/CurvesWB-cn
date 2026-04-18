@@ -1,10 +1,10 @@
 # SPDX-License-Identifier: LGPL-2.1-or-later
 
-__title__ = "HQ Ruled surface"
+__title__ = "高质量直纹面"
 __author__ = "Christophe Grellier (Chris_G)"
 __license__ = "LGPL 2.1"
-__doc__ = """High Quality ruled surface.
-The 2 edges (or wires) are reparametrized before surface creation."""
+__doc__ = """高质量直纹面 (HQ Ruled surface)。
+在创建曲面之前，会对两条边缘（或线串）进行重新参数化处理。"""
 
 import sys
 if sys.version_info.major >= 3:
