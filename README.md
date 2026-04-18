@@ -1,6 +1,41 @@
 ## FreeCAD Curves and Surfaces WorkBench 简单汉化，比较菜不同步上游更新，可能还有汉化引起的bug
 ![Curves Workbench](https://github.com/q921057310-byte/CurvesWB-cn/blob/main/docs/pics/d5a16e90-09a2-4dcb-8d2c-e0972a98fb8b.png)
 
+FreeCAD Curves and Surfaces WorkBench
+🌏 语言选择 / Language
+<details><summary><b>点击展开中文说明 ▶</b></summary>
+FreeCAD 曲线和曲面工作台（简易汉化版）
+水平有限，未同步上游更新，可能存在汉化引发的 bug
+
+
+这是适用于 FreeCAD 的 Python 工作台，提供一系列工具，主要用于 NURBS 曲线与曲面操作。本工作台基于 FreeCAD 主开发分支开发。
+重要说明
+本工作台为实验性工具，不可用于正式生产工作。
+不适合初学者使用，需要具备一定 FreeCAD 基础。
+本项目本质为个人几何算法实验项目。
+安装方法
+有两种安装方式：
+自动安装（推荐）
+FreeCAD 0.17 及以上版本，建议通过插件管理器（Addon Manager）搜索 Curves 安装。
+手动安装
+进入个人 FreeCAD 目录：
+Linux：/home/用户名/.local/share/FreeCAD/
+Windows：%APPDATA%\FreeCAD\Mod\
+macOS：/Users/用户名/Library/Preferences/FreeCAD/
+进入 Mod 文件夹，不存在则新建
+执行：git clone https://github.com/tomate44/CurvesWB
+重启 FreeCAD
+文档
+文档位于 FreeCAD 维基：Curves_Workbench
+反馈
+建议在 FreeCAD 论坛反馈：Curves workbench
+贡献
+问题反馈：优先论坛反馈，附带最小化演示文件
+代码贡献：不鼓励直接提交，先在论坛讨论
+文档贡献：欢迎在 FreeCAD 维基完善
+许可证
+CurvesWB 基于 LGPL2.1+ 协议发布。
+</details>
 This is a python workbench for [FreeCAD](https://www.freecad.org), with a collection of tools, mainly for NURBS curves and surfaces.  
 This workbench is developed for FreeCAD main develoment branch.
 
