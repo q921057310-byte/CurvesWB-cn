@@ -1,5 +1,5 @@
 ## FreeCAD Curves and Surfaces WorkBench 简单汉化，比较菜不同步上游更新，可能还有汉化引起的bug
-![Curves Workbench](https://github.com/tomate44/CurvesWB/raw/main/docs/pics/CurvesWB.jpg)
+![Curves Workbench](https://github.com/q921057310-byte/CurvesWB-cn/blob/main/docs/pics/d5a16e90-09a2-4dcb-8d2c-e0972a98fb8b.png)
 
 This is a python workbench for [FreeCAD](https://www.freecad.org), with a collection of tools, mainly for NURBS curves and surfaces.  
 This workbench is developed for FreeCAD main develoment branch.
