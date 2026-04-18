@@ -1,9 +1,7 @@
 ## FreeCAD Curves and Surfaces WorkBench 简单汉化，比较菜不同步上游更新，可能还有汉化引起的bug
 ![Curves Workbench](https://github.com/q921057310-byte/CurvesWB-cn/blob/main/docs/pics/d5a16e90-09a2-4dcb-8d2c-e0972a98fb8b.png)
 
-FreeCAD Curves and Surfaces WorkBench
-🌏 语言选择 / Language
-<details><summary><b>点击展开中文说明 ▶</b></summary>
+
 FreeCAD 曲线和曲面工作台（简易汉化版）
 水平有限，未同步上游更新，可能存在汉化引发的 bug
 
